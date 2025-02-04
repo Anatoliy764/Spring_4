@@ -11,7 +11,6 @@ import yandex_scooter.ui_test.util.WebDriverFactory;
 
 import java.util.Set;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -20,7 +19,7 @@ import static org.junit.Assert.fail;
  * Проверить: если нажать на логотип «Самоката», попадёшь на главную страницу «Самоката».
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HeaderTestScooterLogo {
+public class HeaderScooterLogoTest {
 
     private WebDriver webDriver;
 

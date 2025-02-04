@@ -19,7 +19,7 @@ import static org.junit.Assert.fail;
  * Проверить: если нажать на логотип Яндекса, в новом окне откроется главная страница Яндекса.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class HeaderTestYandexLogo {
+public class HeaderYandexLogoTest {
 
     private WebDriver webDriver;
 

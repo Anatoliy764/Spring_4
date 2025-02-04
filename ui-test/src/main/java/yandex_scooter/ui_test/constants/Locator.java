@@ -58,8 +58,28 @@ public class Locator {
     @UtilityClass
     public static class HomePage {
 
+        /**
+         * Текстовый заголовок на главной странице "Самокат на пару дней"
+         * */
         public static final String XPATH_TITLE = "//*[@id=\"root\"]/div/div/div[2]/div[4]";
 
+    }
+
+    /**
+     * Класс констант описывающий локаторы страниц статуса заказа.
+     * */
+    @UtilityClass
+    public static class OrderTracking {
+        /**
+         * Окно с картинкой "Такого заказа нет"
+         * */
+        public static final String CLASS_ORDER_NOT_FOUND = "Track_NotFound__6oaoY";
+        public static final String CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE = "#root > div > div.Track_Content__St6Kn > div.Track_NotFound__6oaoY > img";
+
+        /**
+         * Страница деталей существующего заказа
+         * */
+        public static final String CLASS_ROOT = "Track_OrderColumns__2r_1F";
     }
 
 }

@@ -53,13 +53,13 @@ public class Header extends PageObjectModel {
         }
         orderStatusButton.click();
 
-        // ждем отображения поля для ввода идентификатора заказа и кнопки Go!
-        new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
-                .until(driver -> orderIdInput.isDisplayed() && orderIdSubmitButton.isDisplayed());
-
         // инициализируем кнопку и поле для ввода
         orderIdInput = webDriver.findElement(By.xpath(Locator.Header.XPATH_ORDER_ID_INPUT));
         orderIdSubmitButton = webDriver.findElement(By.xpath(Locator.Header.XPATH_ORDER_ID_SUBMIT_BUTTON));
+
+        // ждем отображения поля для ввода идентификатора заказа и кнопки Go!
+        new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
+                .until(driver -> orderIdInput.isDisplayed() && orderIdSubmitButton.isDisplayed());
 
         return this;
     }
@@ -73,7 +73,8 @@ public class Header extends PageObjectModel {
 
     public void validateOrderIdInput() {
         validateOrderIdInputState();
-        String orderId = orderIdInput.getText();
+        // orderIdInput.getText() не возвращает значение, поэтому извлекаем из атрибута value
+        String orderId = orderIdInput.getDomAttribute("value");
         if (orderId.isEmpty()) {
             throw new IllegalStateException("Поле идентификатора заказа не инициализировано. Введите идентификатор заказа.");
         }
@@ -94,10 +95,6 @@ public class Header extends PageObjectModel {
     public Header clickOrderIdSubmitButton() {
         validateOrderIdInput();
 
-        String orderId = orderIdInput.getText();
-        if (orderId.isEmpty()) {
-            throw new IllegalStateException("Поле идентификатора заказа не инициализировано. Введите идентификатор заказа.");
-        }
         if (!orderIdSubmitButton.isDisplayed()) {
             throw new IllegalStateException("Кнопка \"Go!\" не отображена");
         }
