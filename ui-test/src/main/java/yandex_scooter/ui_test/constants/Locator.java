@@ -8,6 +8,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Locator {
 
+    public static final String CLASS_INVALID_INPUT_VALUE = "Input_Error__1Tx5d";
+
     /**
      * Класс констант описывающий локаторы заголовка главной страницы и его компонентов
      * */
@@ -113,6 +115,93 @@ public class Locator {
         public static final String CLASS_ROOT = "Track_OrderColumns__2r_1F";
     }
 
+    /**
+     * Класс описывает локаторы всплывающего окна-формы заказа самоката
+     * */
+    public static class Order {
+        /**
+         * Всплывающее окно заказа
+         */
+        public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[2]";
 
+        /**
+         * Класс описывает локаторы элементов всплывающего окна-формы заказа самоката, относящиеся к информации об арендаторе
+         * */
+        public static class Tenant {
+
+            /**
+             * Поле для ввода имени арендатора
+             */
+            public static final String XPATH_NAME_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input";
+
+            /**
+             * Поле для ввода фамилии арендатора
+             */
+            public static final String XPATH_LASTNAME_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/input";
+
+
+            /**
+             * Поле для ввода адреса доставки самоката
+             */
+            public static final String XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[3]/input";
+
+            /**
+             * Выпадающий список для выбора станции метро
+             */
+            public static final String XPATH_SUBWAY_STATION_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div/div/input";
+            public static final String CLASS_SUBWAY_STATION_SELECT = "select-search__options";
+            public static final String CLASS_SUBWAY_STATION_SELECT_OPTION_VALUE = "Order_Text__2broi";
+
+            /**
+             * Поле для ввода номера телефона арендатора
+             */
+            public static final String XPATH_PHONE_NUMBER_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[5]/input";
+
+            /**
+             * Кнопка "Далее"
+             */
+            public static final String XPATH_NEXT_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button";
+
+        }
+
+        /**
+         * Класс описывает локаторы элементов всплывающего окна-формы заказа самоката, относящиеся к информации об аренде
+         * */
+        public static final class Rent {
+            /**
+             * Поле для ввода даты доставки самоката
+             */
+            public static final String XPATH_SCOOTER_DELIVERY_DATE_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/div[1]/div/input";
+            public static final String CLASS_SCOOTER_DELIVERY_DATE_PICKER = "react-datepicker__month-container";
+            public static final String CLASS_SCOOTER_DELIVERY_DATE_PICKER_SELECTED_DAY = "react-datepicker__day--selected";
+
+            public static final String XPATH_PERIOD_INPUT =   "//*[@id=\"root\"]/div/div[2]/div[2]/div[2]";
+
+            /**
+             * Чекбокс для выбора черного цвета самоката
+             */
+            public static final String XPATH_SCOOTER_COLOR_BLACK_CHECKBOX = "//*[@id=\"black\"]";
+
+            /**
+             * Чекбокс для выбора серого цвета самоката
+             */
+            public static final String XPATH_SCOOTER_COLOR_GRAY_CHECKBOX = "//*[@id=\"grey\"]";
+
+            /**
+             * Поле для ввода комментария для курьера
+             */
+            public static final String XPATH_COMMENT_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/input";
+
+            /**
+             * Кнопка "Заказать" в форме заказа
+             */
+            public static final String XPATH_SUBMIT_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[2]";
+
+            /**
+             * Кнопка "Назад" в форме заказа
+             */
+            public static final String XPATH_BACK_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[1]";
+        }
+    }
 
 }

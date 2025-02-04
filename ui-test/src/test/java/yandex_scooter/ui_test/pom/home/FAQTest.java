@@ -8,7 +8,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import yandex_scooter.ui_test.constants.CommonConstant;
-import yandex_scooter.ui_test.constants.FAQ;
 import yandex_scooter.ui_test.constants.Locator;
 import yandex_scooter.ui_test.util.WebDriverFactory;
 import yandex_scooter.ui_test.util.WebElementUtil;

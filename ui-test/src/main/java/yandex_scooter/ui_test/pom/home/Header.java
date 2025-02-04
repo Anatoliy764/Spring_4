@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import yandex_scooter.ui_test.constants.CommonConstant;
 import yandex_scooter.ui_test.constants.Locator;
 import yandex_scooter.ui_test.pom.PageObjectModel;
+import yandex_scooter.ui_test.pom.order.Order;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Header extends PageObjectModel {
@@ -33,7 +34,7 @@ public class Header extends PageObjectModel {
         orderStatusButton = webElement.findElement(By.xpath(Locator.Header.XPATH_ORDER_STATUS_BUTTON));
     }
 
-    public void clickOrderButton() {
+    public Order clickOrderButton() {
         if (!orderButton.isDisplayed()) {
             throw new IllegalStateException("Кнопка \"Заказать\" не отображена");
         }
@@ -41,6 +42,8 @@ public class Header extends PageObjectModel {
             throw new IllegalStateException("Кнопка \"Заказать\" не доступна для нажатия");
         }
         orderButton.click();
+
+        return new Order(webDriver);
     }
 
     public Header clickOrderStatusButton() {

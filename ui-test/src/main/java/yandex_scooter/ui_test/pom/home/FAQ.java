@@ -1,4 +1,4 @@
-package yandex_scooter.ui_test.constants;
+package yandex_scooter.ui_test.pom.home;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
