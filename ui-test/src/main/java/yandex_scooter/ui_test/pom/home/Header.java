@@ -27,8 +27,8 @@ public class Header extends PageObjectModel {
     public Header(@NonNull WebDriver webDriver) {
         super(webDriver, By.xpath(Locator.Header.XPATH_ROOT));
 
-        yandexLogo = webElement.findElement(By.xpath(Locator.Header.CLASS_YANDEX_LOGO));
-        scooterLogo = webElement.findElement(By.xpath(Locator.Header.CLASS_SCOOTER_LOGO));
+        yandexLogo = webElement.findElement(By.className(Locator.Header.CLASS_YANDEX_LOGO));
+        scooterLogo = webElement.findElement(By.className(Locator.Header.CLASS_SCOOTER_LOGO));
         orderButton = webElement.findElement(By.xpath(Locator.Header.XPATH_ORDER_BUTTON));
         orderStatusButton = webElement.findElement(By.xpath(Locator.Header.XPATH_ORDER_STATUS_BUTTON));
     }
