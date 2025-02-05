@@ -19,6 +19,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Класс описывающий форму заказа относящуюся к арендатору
@@ -36,6 +37,14 @@ public class Order extends PageObjectModel {
         super(webDriver, By.xpath(Locator.Order.XPATH_ROOT));
         this.orderLocator = super.locator;
         tenant = new Tenant(webDriver);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+               "tenant=" + tenant +
+               ", rent=" + rent +
+               '}';
     }
 
     /**
@@ -173,6 +182,17 @@ public class Order extends PageObjectModel {
                    isPhoneNumberValid() &&
                    isSubwayStationValid();
         }
+
+        @Override
+        public String toString() {
+            return "Tenant{" +
+                   "name=" + getName() +
+                   ", lastName=" + getLastName() +
+                   ", scooterDeliveryAddress=" + getScooterDeliveryAddress() +
+                   ", subwayStation=" + getSubwayStation() +
+                   ", phoneNumber=" + getPhoneNumber() +
+                   '}';
+        }
     }
 
     /**
@@ -302,6 +322,16 @@ public class Order extends PageObjectModel {
         * */
         public boolean isValid() {
             return !getScooterDeliveryDate().isEmpty() && !getPeriod().isEmpty();
+        }
+
+        @Override
+        public String toString() {
+            return "Rent{" +
+                   "scooterDeliveryDate=" + getScooterDeliveryDate() +
+                   ", period=" + getPeriod() +
+                   ", scooterColors=" + (scooterColors != null ? scooterColors.keySet().stream().map(ScooterColor::getName).collect(Collectors.joining()) : null) +
+                   ", comment=" + getComment() +
+                   '}';
         }
     }
 

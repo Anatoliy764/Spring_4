@@ -39,24 +39,26 @@ public class OrderTest {
             driver = WebDriverFactory.create();
             driver.get(CommonConstant.URL_YANDEX_SCOOTER);
 
-            Order.Result orderResult = new HomePage(driver)
-                    .getHeader()
-                    .clickOrderButton()
-                    .getTenant()
-                        .setName(FAKER.name().firstName())
-                        .setLastName(FAKER.name().lastName())
-                        .setScooterDeliveryAddress(FAKER.address().streetAddress())
-                        .setSubwayStation(SubwayStation.random().getName())
-                        .setPhoneNumber(FAKER.phoneNumber().phoneNumber().replaceAll("[^\\d+]", ""))
-                    .clickNextButton()
-                        .setComment(FAKER.hobbit().quote())
-                        .setPeriod(RentPeriod.random().getName())
-                        .setScooterDeliveryDate(FAKER.date().future(1, TimeUnit.DAYS).toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate())
-                        .checkScooterColor(ScooterColor.GRAY)
-                    .clickOrderButton()
-                    .clickYesButton();
+            Order.Tenant tenant = new HomePage(driver).getHeader().clickOrderButton().getTenant()
+                    .setName(FAKER.name().firstName())
+                    .setLastName(FAKER.name().lastName())
+                    .setScooterDeliveryAddress(FAKER.address().streetAddress())
+                    .setSubwayStation(SubwayStation.random().getName())
+                    .setPhoneNumber(FAKER.phoneNumber().phoneNumber().replaceAll("[^\\d+]", ""));
+
+            log.info(tenant.toString());
+
+            Order.Rent rent = tenant.clickNextButton()
+                    .setComment(FAKER.hobbit().quote())
+                    .setPeriod(RentPeriod.random().getName())
+                    .setScooterDeliveryDate(FAKER.date().future(1, TimeUnit.DAYS).toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate())
+                    .checkScooterColor(ScooterColor.GRAY);
+
+            log.info(rent.toString());
+
+            Order.Result orderResult = rent.clickOrderButton().clickYesButton();
 
             assertTrue(orderResult.isSuccess());
 
@@ -68,7 +70,7 @@ public class OrderTest {
             log.log(Level.SEVERE, e.getMessage(), e);
             throw new RuntimeException("Unable to instantiate chrome driver. Reason: " + e.getMessage());
         } finally {
-            if(driver != null) {
+            if (driver != null) {
                 driver.close();
             }
         }
@@ -82,26 +84,29 @@ public class OrderTest {
             driver = WebDriverFactory.create();
             driver.get(CommonConstant.URL_YANDEX_SCOOTER);
 
-            Order.Result orderResult = new HomePage(driver)
-                    .scrollDown()
-                    .clickOrderButton()
-                    .getTenant()
-                        .setName(FAKER.name().firstName())
-                        .setLastName(FAKER.name().lastName())
-                        .setScooterDeliveryAddress(FAKER.address().streetAddress())
-                        .setSubwayStation(SubwayStation.random().getName())
-                        .setPhoneNumber(FAKER.phoneNumber().phoneNumber().replaceAll("[^\\d+]", ""))
-                    .clickNextButton()
-                        .setComment(FAKER.hobbit().quote())
-                        .setPeriod(RentPeriod.random().getName())
-                        .setScooterDeliveryDate(FAKER.date().future(1, TimeUnit.DAYS).toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate())
-                        .checkScooterColor(ScooterColor.GRAY)
-                    .clickOrderButton()
-                    .clickYesButton();
+            Order.Tenant tenant = new HomePage(driver).scrollDown().clickOrderButton().getTenant()
+                    .setName(FAKER.name().firstName())
+                    .setLastName(FAKER.name().lastName())
+                    .setScooterDeliveryAddress(FAKER.address().streetAddress())
+                    .setSubwayStation(SubwayStation.random().getName())
+                    .setPhoneNumber(FAKER.phoneNumber().phoneNumber().replaceAll("[^\\d+]", ""));
+
+            log.info(tenant.toString());
+
+            Order.Rent rent = tenant.clickNextButton()
+                    .setComment(FAKER.hobbit().quote())
+                    .setPeriod(RentPeriod.random().getName())
+                    .setScooterDeliveryDate(FAKER.date().future(1, TimeUnit.DAYS).toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate())
+                    .checkScooterColor(ScooterColor.GRAY);
+
+            log.info(rent.toString());
+
+            Order.Result orderResult = rent.clickOrderButton().clickYesButton();
 
             assertTrue(orderResult.isSuccess());
+
             Long orderId = orderResult.getOrderId();
             log.log(Level.INFO, "Order ID: " + orderId);
             assertNotNull(orderId);
@@ -110,7 +115,7 @@ public class OrderTest {
             log.log(Level.SEVERE, e.getMessage(), e);
             throw new RuntimeException("Unable to instantiate chrome driver. Reason: " + e.getMessage());
         } finally {
-            if(driver != null) {
+            if (driver != null) {
                 driver.close();
             }
         }
