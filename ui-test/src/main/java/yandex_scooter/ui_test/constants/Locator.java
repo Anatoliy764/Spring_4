@@ -9,6 +9,7 @@ import lombok.experimental.UtilityClass;
 public class Locator {
 
     public static final String CLASS_INVALID_INPUT_VALUE = "Input_Error__1Tx5d";
+    public static final String CLASS_INVALID_SELECT_OPTION = "Order_MetroError__1BtZb";
 
     /**
      * Класс констант описывающий локаторы заголовка главной страницы и его компонентов
@@ -151,8 +152,10 @@ public class Locator {
              * Выпадающий список для выбора станции метро
              */
             public static final String XPATH_SUBWAY_STATION_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div/div/input";
-            public static final String CLASS_SUBWAY_STATION_SELECT = "select-search__options";
-            public static final String CLASS_SUBWAY_STATION_SELECT_OPTION_VALUE = "Order_Text__2broi";
+            public static final String CLASS_SUBWAY_STATION_SELECT_OPTIONS = "select-search__options";
+            public static final String CLASS_SUBWAY_STATION_SELECT_OPTION = "Order_Text__2broi";
+            public static final String SELECTOR_SUBWAY_STATION_SELECT_OPTION_ERROR = "#root > div > div.Order_Content__bmtHS > div.Order_Form__17u6u > div.Order_UnderError__1VSDB > div.Order_MetroError__1BtZb";
+            public static final String XPATH_SUBWAY_STATION_SELECT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div";
 
             /**
              * Поле для ввода номера телефона арендатора

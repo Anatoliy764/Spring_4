@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,10 +16,7 @@ import yandex_scooter.ui_test.pom.ValueAttributeAwareInputField;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Класс описывающий форму заказа относящуюся к арендатору
@@ -51,7 +49,7 @@ public class Order extends PageObjectModel {
         final ValueAttributeAwareInputField lastName;
         final ValueAttributeAwareInputField scooterDeliveryAddress;
         final ValueAttributeAwareInputField phoneNumber;
-        final PageObjectModel subwayStation;
+        final ValueAttributeAwareInputField subwayStation;
         final ValueAttributeAwareInputField nextButton;
 
         Tenant(@NonNull WebDriver webDriver) {
@@ -64,7 +62,7 @@ public class Order extends PageObjectModel {
             lastName = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT));
             scooterDeliveryAddress = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
             phoneNumber = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_PHONE_NUMBER_INPUT));
-            subwayStation = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SUBWAY_STATION_INPUT));
+            subwayStation = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SUBWAY_STATION_INPUT));
             nextButton = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NEXT_BTN));
         }
 
@@ -118,9 +116,9 @@ public class Order extends PageObjectModel {
 
         public Tenant setSubwayStation(String subwayStation) {
             
-            sendKeys(subwayStation);
+            this.subwayStation.sendKeys(subwayStation);
 
-            WebElement subwayStationDropdown = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT));
+            WebElement subwayStationDropdown = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTIONS));
 
             new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
                     .until(webDriver -> subwayStationDropdown.isDisplayed());
@@ -128,7 +126,7 @@ public class Order extends PageObjectModel {
             List<WebElement> foundOptions = subwayStationDropdown.findElements(By.tagName("button"));
 
             for (WebElement e : foundOptions) {
-                if(Objects.equals(e.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTION_VALUE)).getText(), subwayStation)) {
+                if(Objects.equals(e.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTION)).getText(), subwayStation)) {
                     e.click();
                     break;
                 }
@@ -157,7 +155,13 @@ public class Order extends PageObjectModel {
         }
 
         public boolean isSubwayStationValid() {
-            return !this.subwayStation.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+            try {
+                return !webDriver.findElement(By.ByCssSelector.cssSelector(Locator.Order.Tenant.SELECTOR_SUBWAY_STATION_SELECT_OPTION_ERROR))
+                        .getDomAttribute("class")
+                        .equals(Locator.CLASS_INVALID_SELECT_OPTION);
+            } catch (NoSuchElementException ignored) {
+                return true;
+            }
         }
 
         public boolean isValid() {

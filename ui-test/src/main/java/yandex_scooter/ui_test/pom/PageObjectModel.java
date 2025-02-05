@@ -81,6 +81,10 @@ public abstract class PageObjectModel {
         return getCssClasses().contains(cssClass);
     }
 
+    public boolean hasAtLeastOneOfCssClasses(Collection<String> cssClasses) {
+        return cssClasses.stream().anyMatch(this::hasCssClass);
+    }
+
     public PageObjectModel setAttribute(WebElement webElement, String attributeName, String value) {
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
         js.executeScript("arguments[0].setAttribute(arguments[1], arguments[2]);", webElement, attributeName, value);
@@ -119,7 +123,7 @@ public abstract class PageObjectModel {
         return new PageObjectModel(driver, locator) {
             @Override
             public WebElement getWebElement() {
-                return webElement;
+                return super.webElement;
             }
         };
     }
