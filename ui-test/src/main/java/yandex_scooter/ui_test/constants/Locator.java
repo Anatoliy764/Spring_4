@@ -67,6 +67,11 @@ public class Locator {
         public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div";
 
         /**
+         * Кнопка "Заказать" на странице
+         */
+        public static final String XPATH_ORDER_BTN = "//*[@id=\"root\"]/div/div/div[4]/div[2]/div[5]/button";
+
+        /**
          * Текстовый заголовок на главной странице "Самокат на пару дней"
          * */
         public static final String XPATH_TITLE = "//*[@id=\"root\"]/div/div/div[2]/div[4]";
@@ -206,6 +211,51 @@ public class Locator {
              * Кнопка "Назад" в форме заказа
              */
             public static final String XPATH_BACK_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[1]";
+        }
+
+        /**
+         * Класс описывает локаторы элементов всплывающего окна подтверждения заказа самоката
+         * */
+        public static final class Confirm {
+            /**
+             * Окно подтверждения заказа
+             */
+            public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[5]";
+
+            /**
+             * Кнопка "Да" подтверждающая и создающая заказ
+             */
+            public static final String XPATH_CONFIRM_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[2]";
+
+            /**
+             * Кнопка "Нет" возвращающая обратно на форму заказа
+             */
+            public static final String XPATH_CANCEL_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[1]";
+        }
+
+        /**
+         * Класс описывает локаторы элементов окна с сообщением о результате выполнения размещения заказа
+         * */
+        public static final class Result {
+            /**
+             * Окно отображающее результат оформления заказа
+             */
+            public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[5]";
+
+            /**
+             * Заголовок сообщающий результат оформления заказа
+             */
+            public static final String XPATH_TITLE = "//*[@id=\"root\"]/div/div[2]/div[5]/div[1]";
+
+            /**
+             * Текст содержащий подробную информацию о результате операции, а так же содержащий номер заказа
+             */
+            public static final String XPATH_DETAILS = "//*[@id=\"root\"]/div/div[2]/div[5]/div[1]/div";
+
+            /**
+             * Кнопка "Посмотреть статус" заказа
+             */
+            public static final String XPATH_SHOW_STATUS_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button";
         }
     }
 

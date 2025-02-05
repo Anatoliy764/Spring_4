@@ -1,19 +1,22 @@
 package yandex_scooter.ui_test.pom.home;
 
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import yandex_scooter.ui_test.constants.Locator;
 import yandex_scooter.ui_test.pom.PageObjectModel;
+import yandex_scooter.ui_test.pom.order.Order;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HomePage extends PageObjectModel {
+
+    private final WebElement orderButton;
 
     public HomePage(@NonNull WebDriver webDriver) {
         super(webDriver, By.xpath(Locator.HomePage.XPATH_ROOT));
+
+        orderButton = webDriver.findElement(By.xpath(Locator.HomePage.XPATH_ORDER_BTN));
     }
 
     public HomePage scrollDown() {
@@ -28,5 +31,21 @@ public class HomePage extends PageObjectModel {
                 .executeScript(String.format("window.scrollTo(%d, document.body.scrollHeight)", x));
 
         return this;
+    }
+
+    public Header getHeader() {
+        return new Header(webDriver);
+    }
+
+    public Order clickOrderButton() {
+        if (!orderButton.isDisplayed()) {
+            throw new IllegalStateException("Кнопка \"Заказать\" не отображена");
+        }
+        if (!orderButton.isEnabled()) {
+            throw new IllegalStateException("Кнопка \"Заказать\" не доступна для нажатия");
+        }
+        orderButton.click();
+
+        return new Order(webDriver);
     }
 }

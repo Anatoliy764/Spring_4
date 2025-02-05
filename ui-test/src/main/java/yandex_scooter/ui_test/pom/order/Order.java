@@ -17,6 +17,8 @@ import yandex_scooter.ui_test.pom.ValueAttributeAwareInputField;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Класс описывающий форму заказа относящуюся к арендатору
@@ -179,17 +181,15 @@ public class Order extends PageObjectModel {
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     class Rent extends PageObjectModel {
 
-        // Система выбрать дату в прошлом и при этом успешно создает заказ.
-        // Несмотря на ответ "Только начиная с завтрашнего дня. Но скоро станем расторопнее." на FAQ "Можно ли заказать самокат прямо на сегодня?"
-        // система позволяет сделать заказ на будущую дату.
-        PageObjectModel scooterDeliveryDate;
+        // Система позволяет выбрать дату в прошлом и при этом успешно создает заказ.
+        ValueAttributeAwareInputField scooterDeliveryDate;
 
         PageObjectModel period;
 
         // система позволяет выбрать несколько цветов одновременно и при этом успешно создает заказ
         Map<ScooterColor, PageObjectModel> scooterColors;
 
-        PageObjectModel comment;
+        ValueAttributeAwareInputField comment;
 
         PageObjectModel backButton;
         PageObjectModel orderButton;
@@ -200,12 +200,12 @@ public class Order extends PageObjectModel {
             super(webDriver, orderLocator);
             this.tenant = tenant;
 
-            scooterDeliveryDate = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_DELIVERY_DATE_INPUT));
+            scooterDeliveryDate = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_DELIVERY_DATE_INPUT));
             period = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_PERIOD_INPUT));
             scooterColors = new LinkedHashMap<>();
             scooterColors.put(ScooterColor.BLACK, PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_COLOR_BLACK_CHECKBOX)));
             scooterColors.put(ScooterColor.GRAY, PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_COLOR_GRAY_CHECKBOX)));
-            comment = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_COMMENT_INPUT));
+            comment = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Rent.XPATH_COMMENT_INPUT));
             backButton = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_BACK_BTN));
             orderButton = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SUBMIT_BTN));
         }
@@ -216,6 +216,12 @@ public class Order extends PageObjectModel {
             new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
                     .until(d -> tenant.isDisplayed());
             return tenant;
+        }
+
+        public Confirm clickOrderButton() {
+            orderButton.click();
+
+            return new Confirm(webDriver, this);
         }
 
         public Rent setScooterDeliveryDate(LocalDate localDate) {
@@ -267,6 +273,7 @@ public class Order extends PageObjectModel {
         }
 
         public String getPeriod() {
+            this.period.getText();
             return webDriver.findElement(By.xpath(Locator.Order.Rent.XPATH_PERIOD_INPUT)).getText();
         }
 
@@ -295,6 +302,99 @@ public class Order extends PageObjectModel {
         * */
         public boolean isValid() {
             return !getScooterDeliveryDate().isEmpty() && !getPeriod().isEmpty();
+        }
+    }
+
+    /**
+     * Класс описывающий форму подтверждения заказа
+     * */
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    class Confirm extends PageObjectModel {
+        WebElement noButton;
+        WebElement yesButton;
+        Rent rent;
+
+        Confirm(WebDriver driver, Rent rent) {
+            super(driver, By.xpath(Locator.Order.Confirm.XPATH_ROOT));
+            noButton = driver.findElement(By.xpath(Locator.Order.Confirm.XPATH_CANCEL_BTN));
+            yesButton = driver.findElement(By.xpath(Locator.Order.Confirm.XPATH_CONFIRM_BTN));
+            this.rent = rent;
+        }
+
+        public Rent clickNoButton() {
+            if (!noButton.isDisplayed()) {
+                throw new IllegalStateException("Кнопка \"Нет\" не отображена");
+            }
+            if (!noButton.isEnabled()) {
+                throw new IllegalStateException("Кнопка \"Нет\" не доступна для нажатия");
+            }
+            noButton.click();
+
+            return rent;
+        }
+
+        public Result clickYesButton() {
+            if(!yesButton.isEnabled()) {
+                throw new IllegalStateException("Yes button is not enabled");
+            }
+            yesButton.click();
+
+            return new Result(webDriver);
+        }
+    }
+
+    /**
+     * Класс описывающий окно показывающее результат выполнения заказа
+     * */
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    class Result extends PageObjectModel {
+        private final Pattern ORDER_ID_PATTERN = Pattern.compile("Номер заказа: (\\d+)");
+        private final String SUCCESS_ORDER_TITLE = "Заказ оформлен";
+
+        WebElement title;
+        WebElement details;
+
+        WebElement statusButton;
+
+        Result(WebDriver driver) {
+            super(driver, By.xpath(Locator.Order.Result.XPATH_ROOT));
+            title = driver.findElement(By.xpath(Locator.Order.Result.XPATH_TITLE));
+            details = driver.findElement(By.xpath(Locator.Order.Result.XPATH_DETAILS));
+            statusButton = driver.findElement(By.xpath(Locator.Order.Result.XPATH_SHOW_STATUS_BTN));
+        }
+
+        public String getTitle() {
+            return title.getText();
+        }
+
+        public String getDetails() {
+            return details.getText();
+        }
+
+        public boolean isSuccess() {
+            String t = getTitle();
+            return t != null && !t.isBlank() && t.contains(SUCCESS_ORDER_TITLE);
+        }
+
+        public Long getOrderId() {
+
+            Long orderId = null;
+
+            new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
+                    .until(driver ->
+                            getDetails() != null &&
+                            getDetails().replace("\n", "").matches(".*\\d.*"));
+
+            Matcher matcher = ORDER_ID_PATTERN.matcher(getDetails());
+
+            if (matcher.find()) {
+                orderId = Long.parseLong(matcher.group(1));
+            }
+            return orderId;
+        }
+
+        public void showStatus() {
+            statusButton.click();
         }
     }
 }

@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 @UtilityClass
 public class CommonConstant {
-    public static final Duration TIME_OUT = Duration.ofSeconds(5);
+    public static final Duration TIME_OUT = Duration.ofSeconds(10);
     public static final String URL_YANDEX_SCOOTER = "https://qa-scooter.praktikum-services.ru/";
     public static final String URL_YANDEX = "https://ya.ru/";
 
