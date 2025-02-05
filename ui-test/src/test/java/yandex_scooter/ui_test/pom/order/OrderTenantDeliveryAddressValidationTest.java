@@ -11,7 +11,7 @@ import yandex_scooter.ui_test.util.WebDriverFactory;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class OrderValidationTenantScooterDeliveryAddressTest {
+public class OrderTenantDeliveryAddressValidationTest {
     private static WebDriver driver;
 
     private static Order.Tenant tenant;

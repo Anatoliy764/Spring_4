@@ -10,7 +10,7 @@ import yandex_scooter.ui_test.util.WebDriverFactory;
 
 import static org.junit.Assert.*;
 
-public class OrderValidationTenantNameTest {
+public class OrderTenantNameValidationTest {
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
