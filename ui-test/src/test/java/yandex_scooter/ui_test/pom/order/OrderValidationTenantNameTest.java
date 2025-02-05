@@ -34,7 +34,7 @@ public class OrderValidationTenantNameTest {
     public void testOrderTenantNameShouldBeValid() {
         tenant.setName("Джеймс");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertTrue(tenant.isNameValid());
     }
@@ -43,7 +43,7 @@ public class OrderValidationTenantNameTest {
     public void testOrderTenantBlankNameShouldBeInvalid() {
         tenant.setName(" ");
         // на всякий случай инициируем валидацию на фронте кликом по форме 
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -52,7 +52,7 @@ public class OrderValidationTenantNameTest {
     public void testOrderTenantEmptyNameShouldBeInvalid() {
         tenant.setName("");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -61,7 +61,7 @@ public class OrderValidationTenantNameTest {
     public void testOrderTenantShortNameShouldBeInvalid() {
         tenant.setName("Д");
         // на всякий случай инициируем валидацию на фронте кликом по форме 
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -72,7 +72,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("Ддддддддддддддддддддджжжжжжжжжжжжжжжжжжжжжжжеееееееееееееееееееееееееееееееейййййййййййййййййййййййййййййййййймммммммммммммммммммммммммммммсссссссссссссссссссссс");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -83,7 +83,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("12345");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -100,7 +100,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("James");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -113,7 +113,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("джеймс").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -126,7 +126,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("ДЖЕЙМС").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -140,7 +140,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName(" Джеймс ").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }
@@ -153,7 +153,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("Дже ймс");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertTrue(tenant.isNameValid());
     }
@@ -164,7 +164,7 @@ public class OrderValidationTenantNameTest {
         tenant.setName("!@#$%^&*()-_=+").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isNameValid());
     }

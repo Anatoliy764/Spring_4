@@ -33,7 +33,7 @@ public class OrderValidationTenantLastNameTest {
     public void testOrderTenantLastNameShouldBeValid() {
         tenant.setLastName("Гослинг");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertTrue(tenant.isLastNameValid());
     }
@@ -42,7 +42,7 @@ public class OrderValidationTenantLastNameTest {
     public void testOrderTenantBlankLastNameShouldBeInvalid() {
         tenant.setLastName(" ");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -51,7 +51,7 @@ public class OrderValidationTenantLastNameTest {
     public void testOrderTenantEmptyLastNameShouldBeInvalid() {
         tenant.setLastName("");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -60,7 +60,7 @@ public class OrderValidationTenantLastNameTest {
     public void testOrderTenantShortLastNameShouldBeInvalid() {
         tenant.setLastName("Г");
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -71,7 +71,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("Вольфешлегельштайнхаузенбергердорффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффф");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -82,7 +82,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("12345");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -99,7 +99,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("Gosling");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -112,7 +112,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("гослинг").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -123,7 +123,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("ГОСЛИНГ").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -137,7 +137,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName(" Гослинг ").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }
@@ -149,7 +149,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("Гос линг");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertTrue(tenant.isLastNameValid());
     }
@@ -160,7 +160,7 @@ public class OrderValidationTenantLastNameTest {
         tenant.setLastName("!@#$%^&*()-_=+").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
-        tenant.getWebElement().click();
+        tenant.getFormTitle().click();
 
         assertFalse(tenant.isLastNameValid());
     }

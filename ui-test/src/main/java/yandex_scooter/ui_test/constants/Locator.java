@@ -129,6 +129,8 @@ public class Locator {
          * */
         public static class Tenant {
 
+            public static final String CLASS_FORM_TITLE = "Order_Header__BZXOb";
+
             /**
              * Поле для ввода имени арендатора
              */

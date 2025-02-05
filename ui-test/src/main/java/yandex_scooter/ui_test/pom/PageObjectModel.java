@@ -65,6 +65,10 @@ public abstract class PageObjectModel {
         return getAttribute("value");
     }
 
+    public PageObjectModel setValueAttribute(String value) {
+        return setAttribute(webElement, "value", value);
+    }
+
     public Collection<String> getCssClasses() {
         String cssClasses = getAttribute("class");
         if(cssClasses == null || cssClasses.isEmpty()) {
@@ -78,7 +82,7 @@ public abstract class PageObjectModel {
     }
 
     public PageObjectModel setAttribute(WebElement webElement, String attributeName, String value) {
-        JavascriptExecutor js = (JavascriptExecutor) webElement;
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
         js.executeScript("arguments[0].setAttribute(arguments[1], arguments[2]);", webElement, attributeName, value);
         return this;
     }

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import yandex_scooter.ui_test.constants.CommonConstant;
 import yandex_scooter.ui_test.constants.Locator;
 import yandex_scooter.ui_test.pom.PageObjectModel;
+import yandex_scooter.ui_test.pom.ValueAttributeAwareInputField;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -43,39 +44,28 @@ public class Order extends PageObjectModel {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     class Tenant extends PageObjectModel {
 
-        final PageObjectModel name;
-        final PageObjectModel lastName;
-        final PageObjectModel scooterDeliveryAddress;
-        final PageObjectModel phoneNumber;
+        @Getter
+        final WebElement formTitle;
+
+        final ValueAttributeAwareInputField name;
+        final ValueAttributeAwareInputField lastName;
+        final ValueAttributeAwareInputField scooterDeliveryAddress;
+        final ValueAttributeAwareInputField phoneNumber;
         final PageObjectModel subwayStation;
-        final PageObjectModel nextButton;
+        final ValueAttributeAwareInputField nextButton;
 
         Tenant(@NonNull WebDriver webDriver) {
             super(webDriver, orderLocator);
 
+            formTitle = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_FORM_TITLE));
+
             // getText() почему-то не возвращает значение даже если sendKeys() установил, поэтому берем из атрибута value
-            name = new PageObjectModel(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NAME_INPUT)) {
-                @Override
-                public PageObjectModel sendKeys(String keys) {
-                    clear();
-                    webElement.sendKeys(keys);
-                    new WebDriverWait(webDriver, CommonConstant.TIME_OUT).until(d -> Objects.equals(getText(), keys) || Objects.equals(getValueAttribute(), keys));
-                    return this;
-                }
-            };
-            lastName = new PageObjectModel(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT)) {
-                @Override
-                public PageObjectModel sendKeys(String keys) {
-                    clear();
-                    webElement.sendKeys(keys);
-                    new WebDriverWait(webDriver, CommonConstant.TIME_OUT).until(d -> Objects.equals(getText(), keys) || Objects.equals(getValueAttribute(), keys));
-                    return this;
-                }
-            };
-            scooterDeliveryAddress = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
-            phoneNumber = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_PHONE_NUMBER_INPUT));
+            name = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NAME_INPUT));
+            lastName = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT));
+            scooterDeliveryAddress = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
+            phoneNumber = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_PHONE_NUMBER_INPUT));
             subwayStation = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SUBWAY_STATION_INPUT));
-            nextButton = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NEXT_BTN));
+            nextButton = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NEXT_BTN));
         }
 
         public Rent clickNextButton() {
