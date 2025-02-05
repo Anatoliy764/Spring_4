@@ -30,7 +30,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantLastNameShouldBeValid() {
+    public void testLastNameShouldBeValid() {
         tenant.setLastName("Гослинг");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -39,7 +39,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantBlankLastNameShouldBeInvalid() {
+    public void testBlankLastNameShouldBeInvalid() {
         tenant.setLastName(" ");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -48,7 +48,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantEmptyLastNameShouldBeInvalid() {
+    public void testEmptyLastNameShouldBeInvalid() {
         tenant.setLastName("");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -57,7 +57,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantShortLastNameShouldBeInvalid() {
+    public void testShortLastNameShouldBeInvalid() {
         tenant.setLastName("Г");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -66,7 +66,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantLongLastNameShouldBeInvalid() {
+    public void testLongLastNameShouldBeInvalid() {
 
         tenant.setLastName("Вольфешлегельштайнхаузенбергердорффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффф");
 
@@ -77,7 +77,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantDigitLastNameShouldBeInvalid() {
+    public void testDigitLastNameShouldBeInvalid() {
 
         tenant.setLastName("12345");
 
@@ -94,7 +94,7 @@ public class OrderTenantLastNameValidationTest {
     * Однако система не принимает латиницу, поэтому фактически тест подстроен под поведение системы, а не наоборот.
     * */
     @Test
-    public void testOrderTenantLatinLastNameShouldBeInvalid() {
+    public void testLatinLastNameShouldBeInvalid() {
 
         tenant.setLastName("Gosling");
 
@@ -107,7 +107,7 @@ public class OrderTenantLastNameValidationTest {
     // Фамилии начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
     // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
-    public void testOrderTenantLowercaseLastNameValidation() {
+    public void testLowercaseLastNameShouldBeInvalid() {
 
         tenant.setLastName("гослинг").getWebElement().click();
 
@@ -118,7 +118,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantUppercaseLastNameValidation() {
+    public void testUppercaseLastNameShouldBeInvalid() {
 
         tenant.setLastName("ГОСЛИНГ").getWebElement().click();
 
@@ -132,7 +132,7 @@ public class OrderTenantLastNameValidationTest {
     // Однако даже в бэке сохраняется имя с пробелами. Фамилию например нельзя ввести с пробелами,
     // потому считаем ошибкой если фронт допускает ввод пробелов.
     @Test
-    public void testOrderTenantSpaceLastNameValidation() {
+    public void testSpaceLastNameShouldBeInvalid() {
 
         tenant.setLastName(" Гослинг ").getWebElement().click();
 
@@ -144,7 +144,7 @@ public class OrderTenantLastNameValidationTest {
 
     // Фамилии в которых есть пробел встречаются, например "Ван Гог"
     @Test
-    public void testOrderTenantMiddleSpaceLastNameValidation() {
+    public void testMiddleSpaceLastNameShouldBeValid() {
 
         tenant.setLastName("Гос линг");
 
@@ -155,7 +155,7 @@ public class OrderTenantLastNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantSpecialCharsLastNameValidation() {
+    public void testSpecialCharsLastNameShouldBeInvalid() {
 
         tenant.setLastName("!@#$%^&*()-_=+").getWebElement().click();
 

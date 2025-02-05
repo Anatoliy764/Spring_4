@@ -31,7 +31,7 @@ public class OrderTenantNameValidationTest {
     // region Name field tests
 
     @Test
-    public void testOrderTenantNameShouldBeValid() {
+    public void testNameShouldBeValid() {
         tenant.setName("Джеймс");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -40,7 +40,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantBlankNameShouldBeInvalid() {
+    public void testBlankNameShouldBeInvalid() {
         tenant.setName(" ");
         // на всякий случай инициируем валидацию на фронте кликом по форме 
         tenant.getFormTitle().click();
@@ -49,7 +49,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantEmptyNameShouldBeInvalid() {
+    public void testEmptyNameShouldBeInvalid() {
         tenant.setName("");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -58,7 +58,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantShortNameShouldBeInvalid() {
+    public void testShortNameShouldBeInvalid() {
         tenant.setName("Д");
         // на всякий случай инициируем валидацию на фронте кликом по форме 
         tenant.getFormTitle().click();
@@ -67,7 +67,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantLongNameShouldBeInvalid() {
+    public void testLongNameShouldBeInvalid() {
 
         tenant.setName("Ддддддддддддддддддддджжжжжжжжжжжжжжжжжжжжжжжеееееееееееееееееееееееееееееееейййййййййййййййййййййййййййййййййймммммммммммммммммммммммммммммсссссссссссссссссссссс");
 
@@ -78,7 +78,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantDigitNameShouldBeInvalid() {
+    public void testDigitNameShouldBeInvalid() {
 
         tenant.setName("12345");
 
@@ -95,7 +95,7 @@ public class OrderTenantNameValidationTest {
     * Однако система не принимает латиницу, поэтому фактически тест подстроен под поведение системы, а не наоборот.
     * */
     @Test
-    public void testOrderTenantLatinNameShouldBeInvalid() {
+    public void testLatinNameShouldBeInvalid() {
 
         tenant.setName("James");
 
@@ -108,7 +108,7 @@ public class OrderTenantNameValidationTest {
     // Имена начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
     // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
-    public void testOrderTenantLowercaseNameValidation() {
+    public void testLowercaseNameShouldBeInvalid() {
 
         tenant.setName("джеймс").getWebElement().click();
 
@@ -121,7 +121,7 @@ public class OrderTenantNameValidationTest {
     // Имена начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
     // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
-    public void testOrderTenantUppercaseNameValidation() {
+    public void testUppercaseNameShouldBeInvalid() {
 
         tenant.setName("ДЖЕЙМС").getWebElement().click();
 
@@ -135,7 +135,7 @@ public class OrderTenantNameValidationTest {
     // Однако даже в бэке сохраняется имя с пробелами. Фамилию например нельзя ввести с пробелами,
     // потому считаем ошибкой если фронт допускает ввод пробелов.
     @Test
-    public void testOrderTenantSpaceNameValidation() {
+    public void testSpaceNameShouldBeInvalid() {
 
         tenant.setName(" Джеймс ").getWebElement().click();
 
@@ -148,7 +148,7 @@ public class OrderTenantNameValidationTest {
     // Имена в которых есть пробел редки и чаще всего это двойные имена испаноязычных групп.
     // Ввиду отсутствия требований не считаем за ошибку если система считает имя с пробелом валидным
     @Test
-    public void testOrderTenantMiddleSpaceNameValidation() {
+    public void testMiddleSpaceNameShouldBeValid() {
 
         tenant.setName("Дже ймс");
 
@@ -159,7 +159,7 @@ public class OrderTenantNameValidationTest {
     }
 
     @Test
-    public void testOrderTenantSpecialCharsNameValidation() {
+    public void testSpecialCharsNameShouldBeInvalid() {
 
         tenant.setName("!@#$%^&*()-_=+").getWebElement().click();
 
