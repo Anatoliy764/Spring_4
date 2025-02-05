@@ -18,17 +18,60 @@ import org.openqa.selenium.safari.SafariOptions;
 import java.util.Arrays;
 import java.util.logging.Level;
 
+/**
+ * Чтобы не дублировать код под разные браузеры создана фабрика,
+ * которая создает экземпляр под указанный браузер в переменной среде "BROWSER"
+ * Таким образом не нужно менять код, если нужно запустить тест в др. браузере, достаточно предоставить переменную среды.
+ * */
 @Log
 @UtilityClass
 public class WebDriverFactory {
 
+    /**
+     * Обязательная переменная среды для создания экземпляра {@link WebDriver} используя метод {@link WebDriverFactory#create()}
+     * */
     private static final String ENV_BROWSER = "BROWSER";
+
+    /**
+     * Переменная среды для указания доп. опций при создании экземпляра {@link WebDriver}
+     * */
     private static final String ENV_BROWSER_OPTIONS = "BROWSER_OPTIONS";
+
+    /**
+     * Переменная среды для указания координаты по оси X окна браузера при открытии.
+     * <br/><br/>
+     * Полезно когда работаешь с несколькими мониторами и
+     * чтобы открывающийся браузер не перекрывал среду разработки можно смесить окно браузера на указанную координату.
+     * */
     private static final String ENV_BROWSER_WINDOW_X = "BROWSER_WINDOW_COORDINATE_X";
+
+    /**
+     * Переменная среды для указания координаты по оси Y окна браузера при открытии.
+     * <br/><br/>
+     * Полезно когда работаешь с несколькими мониторами и
+     * чтобы открывающийся браузер не перекрывал среду разработки можно смесить окно браузера на указанную координату.
+     * */
     private static final String ENV_BROWSER_WINDOW_Y = "BROWSER_WINDOW_COORDINATE_Y";
+
+    /**
+     * Переменная среды для указания ширины окна браузера при открытии.
+     * <br/><br/>
+     * Полезно когда работаешь с несколькими мониторами и
+     * чтобы открывающийся браузер не перекрывал среду разработки можно смесить окно браузера на указанную координату.
+     * */
     private static final String ENV_BROWSER_WINDOW_WIDTH = "BROWSER_WINDOW_WIDTH";
+
+    /**
+     * Переменная среды для указания высоты окна браузера при открытии.
+     * <br/><br/>
+     * Полезно когда работаешь с несколькими мониторами и
+     * чтобы открывающийся браузер не перекрывал среду разработки можно смесить окно браузера на указанную координату.
+     * */
     private static final String ENV_BROWSER_WINDOW_HEIGHT = "BROWSER_WINDOW_HEIGHT";
 
+    /**
+     * Перечисление поддерживаемых браузеров
+     * */
     public enum Browser {
         CHROME,
         FIREFOX,
@@ -36,6 +79,12 @@ public class WebDriverFactory {
         SAFARI;
     }
 
+    /**
+     * Создает экземпляр {@link WebDriver} под указанный тип браузера и с указанными опциями.
+     *
+     * @param browser перечисление поддерживаемых браузеров. Список поддерживаемых браузеров перечислен в {@link Browser}
+     * @param options дополнительные опции для браузера.
+     * */
     public static WebDriver create(Browser browser, String ... options) {
         switch (browser) {
             case CHROME: {
@@ -54,6 +103,11 @@ public class WebDriverFactory {
         }
     }
 
+    /**
+     * Создает экземпляр {@link WebDriver} под указанный тип браузера и с указанными опциями в переменных средах.
+     *
+     * @apiNote для создания экземпляра требуется указание в конфигурации запуска как минимум типа браузера в переменной среде {@link WebDriverFactory#ENV_BROWSER BROWSER}
+     * */
     public static WebDriver create() {
 
         WebDriver webDriver;

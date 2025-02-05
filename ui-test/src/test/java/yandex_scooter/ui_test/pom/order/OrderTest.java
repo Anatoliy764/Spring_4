@@ -16,9 +16,18 @@ import java.util.logging.Level;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+
 @Log
 public class OrderTest {
 
+    /*
+     *  <blockquote
+     *      <p>Нужно написать тесты с разными данными: минимум два набора. Какие именно данные использовать — на твоё усмотрение.</p>
+     *  </blockquote>
+     *
+     *  Вместо написания одних и тех же тестов с разными наборами данных используется Java faker.
+     *  При каждом запуске теста набор данных будет сгенерирован.
+     * */
     private static final Faker FAKER = new Faker(new Locale("ru", "RU"));
 
     @Test
@@ -26,6 +35,7 @@ public class OrderTest {
 
         WebDriver driver = null;
         try {
+
             driver = WebDriverFactory.create();
             driver.get(CommonConstant.URL_YANDEX_SCOOTER);
 
