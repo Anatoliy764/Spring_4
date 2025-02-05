@@ -63,7 +63,15 @@ public class Order extends PageObjectModel {
                     return this;
                 }
             };
-            lastName = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT));
+            lastName = new PageObjectModel(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT)) {
+                @Override
+                public PageObjectModel sendKeys(String keys) {
+                    clear();
+                    webElement.sendKeys(keys);
+                    new WebDriverWait(webDriver, CommonConstant.TIME_OUT).until(d -> Objects.equals(getText(), keys) || Objects.equals(getValueAttribute(), keys));
+                    return this;
+                }
+            };
             scooterDeliveryAddress = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
             phoneNumber = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_PHONE_NUMBER_INPUT));
             subwayStation = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SUBWAY_STATION_INPUT));

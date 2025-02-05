@@ -8,9 +8,10 @@ import yandex_scooter.ui_test.constants.CommonConstant;
 import yandex_scooter.ui_test.pom.home.Header;
 import yandex_scooter.ui_test.util.WebDriverFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class OrderValidationTenantNameTest {
+public class OrderValidationTenantLastNameTest {
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
@@ -28,147 +29,141 @@ public class OrderValidationTenantNameTest {
         tenant = new Header(driver).clickOrderButton().getTenant();
     }
 
-    // region Name field tests
-
     @Test
-    public void testOrderTenantNameShouldBeValid() {
-        tenant.setName("Джеймс");
+    public void testOrderTenantLastNameShouldBeValid() {
+        tenant.setLastName("Гослинг");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertTrue(tenant.isNameValid());
+        assertTrue(tenant.isLastNameValid());
     }
 
     @Test
-    public void testOrderTenantBlankNameShouldBeInvalid() {
-        tenant.setName(" ");
-        // на всякий случай инициируем валидацию на фронте кликом по форме 
-        tenant.getWebElement().click();
-
-        assertFalse(tenant.isNameValid());
-    }
-
-    @Test
-    public void testOrderTenantEmptyNameShouldBeInvalid() {
-        tenant.setName("");
+    public void testOrderTenantBlankLastNameShouldBeInvalid() {
+        tenant.setLastName(" ");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
     @Test
-    public void testOrderTenantShortNameShouldBeInvalid() {
-        tenant.setName("Д");
-        // на всякий случай инициируем валидацию на фронте кликом по форме 
-        tenant.getWebElement().click();
-
-        assertFalse(tenant.isNameValid());
-    }
-
-    @Test
-    public void testOrderTenantLongNameShouldBeInvalid() {
-
-        tenant.setName("Ддддддддддддддддддддджжжжжжжжжжжжжжжжжжжжжжжеееееееееееееееееееееееееееееееейййййййййййййййййййййййййййййййййймммммммммммммммммммммммммммммсссссссссссссссссссссс");
-
+    public void testOrderTenantEmptyLastNameShouldBeInvalid() {
+        tenant.setLastName("");
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
     @Test
-    public void testOrderTenantDigitNameShouldBeInvalid() {
+    public void testOrderTenantShortLastNameShouldBeInvalid() {
+        tenant.setLastName("Г");
+        // на всякий случай инициируем валидацию на фронте кликом по форме
+        tenant.getWebElement().click();
 
-        tenant.setName("12345");
+        assertFalse(tenant.isLastNameValid());
+    }
+
+    @Test
+    public void testOrderTenantLongLastNameShouldBeInvalid() {
+
+        tenant.setLastName("Вольфешлегельштайнхаузенбергердорффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффф");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
+    }
+
+    @Test
+    public void testOrderTenantDigitLastNameShouldBeInvalid() {
+
+        tenant.setLastName("12345");
+
+        // на всякий случай инициируем валидацию на фронте кликом по форме
+        tenant.getWebElement().click();
+
+        assertFalse(tenant.isLastNameValid());
     }
 
     /*
-    * Т.к. нет конкретных требований, не понятно почему форма не принимает значения на латинице.
+    * Т.к. нет конкретных требований, не понятно почему форма не принимает ФИО на латинице.
     * Вполне вероятно что иностранец захочет взять самокат и будет вводить на латинице.
     * Даже учитывая то, что интерфейс на русском, некоторые включают в браузере автоматический перевод страницы, поэтому такой кейс вполне себе вероятен.
     * Однако система не принимает латиницу, поэтому фактически тест подстроен под поведение системы, а не наоборот.
     * */
     @Test
-    public void testOrderTenantLatinNameShouldBeInvalid() {
+    public void testOrderTenantLatinLastNameShouldBeInvalid() {
 
-        tenant.setName("James");
+        tenant.setLastName("Gosling");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
-    // Имена начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
+    // Фамилии начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
     // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
-    public void testOrderTenantLowercaseNameValidation() {
+    public void testOrderTenantLowercaseLastNameValidation() {
 
-        tenant.setName("джеймс").getWebElement().click();
+        tenant.setLastName("гослинг").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
-    // Имена начинаются с большой буквы. Ожидается что имя введенное с маленькой буквы не валидно.
-    // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
-    public void testOrderTenantUppercaseNameValidation() {
+    public void testOrderTenantUppercaseLastNameValidation() {
 
-        tenant.setName("ДЖЕЙМС").getWebElement().click();
+        tenant.setLastName("ГОСЛИНГ").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
     // Чаще всего пробелы в начале и в конце убираются автоматически, даже если не на фронте, то на бэке выполняется функция trim
     // Однако даже в бэке сохраняется имя с пробелами. Фамилию например нельзя ввести с пробелами,
     // потому считаем ошибкой если фронт допускает ввод пробелов.
     @Test
-    public void testOrderTenantSpaceNameValidation() {
+    public void testOrderTenantSpaceLastNameValidation() {
 
-        tenant.setName(" Джеймс ").getWebElement().click();
+        tenant.setLastName(" Гослинг ").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
 
-    // Имена в которых есть пробел редки и чаще всего это двойные имена испаноязычных групп.
-    // Ввиду отсутствия требований не считаем за ошибку если система считает имя с пробелом валидным
+    // Фамилии в которых есть пробел встречаются, например "Ван Гог"
     @Test
-    public void testOrderTenantMiddleSpaceNameValidation() {
+    public void testOrderTenantMiddleSpaceLastNameValidation() {
 
-        tenant.setName("Дже ймс");
+        tenant.setLastName("Гос линг");
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertTrue(tenant.isNameValid());
+        assertTrue(tenant.isLastNameValid());
     }
 
     @Test
-    public void testOrderTenantSpecialCharsNameValidation() {
+    public void testOrderTenantSpecialCharsLastNameValidation() {
 
-        tenant.setName("!@#$%^&*()-_=+").getWebElement().click();
+        tenant.setLastName("!@#$%^&*()-_=+").getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getWebElement().click();
 
-        assertFalse(tenant.isNameValid());
+        assertFalse(tenant.isLastNameValid());
     }
-    // endregion
 
     @AfterClass
     public static void tearDown() {
