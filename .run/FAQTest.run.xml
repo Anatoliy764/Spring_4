@@ -1,0 +1,24 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="FAQTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <module name="ui-test" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="yandex_scooter.ui_test.pom.home.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="yandex_scooter.ui_test.pom.home" />
+    <option name="MAIN_CLASS_NAME" value="yandex_scooter.ui_test.pom.home.FAQTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <envs>
+      <env name="BROWSER" value="EDGE" />
+      <env name="BROWSER_OPTIONS" value="--no-sandbox --disable-dev-shm-usage --disable-infobars" />
+      <env name="BROWSER_WINDOW_COORDINATE_X" value="-1550" />
+      <env name="BROWSER_WINDOW_COORDINATE_Y" value="750" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
