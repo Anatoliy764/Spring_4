@@ -1,13 +1,9 @@
 package yandex_scooter.ui_test.pom.order;
 
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 
-@Getter
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum SubwayStation {
 
@@ -25,9 +21,15 @@ public enum SubwayStation {
     ОКРУЖНАЯ(207, "Окружная", "#efadb5"),
     ;
 
-    int number;
-    String name;
-    String color;
+    private final int number;
+    private final String name;
+    private final String color;
+
+    private SubwayStation(int number, String name, String color) {
+        this.number = number;
+        this.name = name;
+        this.color = color;
+    }
 
     public static SubwayStation valueOfName(String name) {
         for (SubwayStation station : values()) {
@@ -40,5 +42,17 @@ public enum SubwayStation {
 
     public static SubwayStation random() {
         return values()[(int) (Math.random() * values().length)];
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getColor() {
+        return this.color;
     }
 }

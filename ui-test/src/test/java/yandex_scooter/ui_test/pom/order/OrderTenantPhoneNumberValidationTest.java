@@ -8,7 +8,8 @@ import yandex_scooter.ui_test.constants.CommonConstant;
 import yandex_scooter.ui_test.pom.home.Header;
 import yandex_scooter.ui_test.util.WebDriverFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class OrderTenantPhoneNumberValidationTest {
 

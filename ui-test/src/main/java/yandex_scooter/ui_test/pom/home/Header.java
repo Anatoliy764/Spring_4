@@ -16,14 +16,14 @@ import yandex_scooter.ui_test.pom.order.Order;
 public class Header extends PageObjectModel {
 
     // объявлены как final т.к. видны в хидере
-    final WebElement yandexLogo;
-    final WebElement scooterLogo;
-    final WebElement orderButton;
-    final WebElement orderStatusButton;
+    private final WebElement yandexLogo;
+    private final WebElement scooterLogo;
+    private final WebElement orderButton;
+    private final WebElement orderStatusButton;
 
     // становятся видны только после нажатия на кнопку "Статус заказа"
-    WebElement orderIdInput;
-    WebElement orderIdSubmitButton;
+    private WebElement orderIdInput;
+    private WebElement orderIdSubmitButton;
 
     public Header(@NonNull WebDriver webDriver) {
         super(webDriver, By.xpath(Locator.Header.XPATH_ROOT));
@@ -109,14 +109,14 @@ public class Header extends PageObjectModel {
     }
 
     public void clickYandexLogo() {
-        if(!yandexLogo.isDisplayed()) {
+        if (!yandexLogo.isDisplayed()) {
             throw new IllegalStateException("Логотип \"Яндекс\" не отображен");
         }
         yandexLogo.click();
     }
 
     public void clickScooterLogo() {
-        if(!scooterLogo.isDisplayed()) {
+        if (!scooterLogo.isDisplayed()) {
             throw new IllegalStateException("Логотип \"Самокат\" не отображен");
         }
         scooterLogo.click();

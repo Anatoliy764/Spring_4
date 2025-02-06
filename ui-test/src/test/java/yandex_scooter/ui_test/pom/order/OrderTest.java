@@ -1,7 +1,6 @@
 package yandex_scooter.ui_test.pom.order;
 
 import com.github.javafaker.Faker;
-import lombok.extern.java.Log;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import yandex_scooter.ui_test.constants.CommonConstant;
@@ -12,12 +11,12 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 
-@Log
 public class OrderTest {
 
     /*
@@ -29,6 +28,7 @@ public class OrderTest {
      *  При каждом запуске теста набор данных будет сгенерирован.
      * */
     private static final Faker FAKER = new Faker(new Locale("ru", "RU"));
+    private static final Logger log = Logger.getLogger(OrderTest.class.getName());
 
     @Test
     public void testOrderFromHeaderShouldSuccessfullyCreated() {

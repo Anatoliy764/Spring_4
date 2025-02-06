@@ -8,7 +8,8 @@ import yandex_scooter.ui_test.constants.CommonConstant;
 import yandex_scooter.ui_test.pom.home.Header;
 import yandex_scooter.ui_test.util.WebDriverFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class OrderTenantNameValidationTest {
     private static WebDriver driver;
@@ -89,11 +90,11 @@ public class OrderTenantNameValidationTest {
     }
 
     /*
-    * Т.к. нет конкретных требований, не понятно почему форма не принимает значения на латинице.
-    * Вполне вероятно что иностранец захочет взять самокат и будет вводить на латинице.
-    * Даже учитывая то, что интерфейс на русском, некоторые включают в браузере автоматический перевод страницы, поэтому такой кейс вполне себе вероятен.
-    * Однако система не принимает латиницу, поэтому фактически тест подстроен под поведение системы, а не наоборот.
-    * */
+     * Т.к. нет конкретных требований, не понятно почему форма не принимает значения на латинице.
+     * Вполне вероятно что иностранец захочет взять самокат и будет вводить на латинице.
+     * Даже учитывая то, что интерфейс на русском, некоторые включают в браузере автоматический перевод страницы, поэтому такой кейс вполне себе вероятен.
+     * Однако система не принимает латиницу, поэтому фактически тест подстроен под поведение системы, а не наоборот.
+     * */
     @Test
     public void testLatinNameShouldBeInvalid() {
 

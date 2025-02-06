@@ -1,6 +1,9 @@
 package yandex_scooter.ui_test.pom.order;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -44,7 +47,8 @@ public class OrderTenantSubwayStationValidationTest {
         // ошибка валидации в случае с выпадающим списком проявляется только после нажатия на кнопку "Далее"
         try {
             tenant.clickNextButton();
-        } catch (TimeoutException | NoSuchElementException ignored) {}
+        } catch (TimeoutException | NoSuchElementException ignored) {
+        }
 
         assertFalse(tenant.isSubwayStationValid());
     }

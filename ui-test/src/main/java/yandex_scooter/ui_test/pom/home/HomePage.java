@@ -25,7 +25,7 @@ public class HomePage extends PageObjectModel {
 
     /**
      * @param x координата по оси X
-     * */
+     */
     public HomePage scrollDown(int x) {
         ((JavascriptExecutor) webDriver)
                 .executeScript(String.format("window.scrollTo(%d, document.body.scrollHeight)", x));

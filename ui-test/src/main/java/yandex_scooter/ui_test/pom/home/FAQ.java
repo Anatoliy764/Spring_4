@@ -1,10 +1,5 @@
 package yandex_scooter.ui_test.pom.home;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
 public enum FAQ {
 
     PRICE_AND_PAYMENT(
@@ -38,10 +33,21 @@ public enum FAQ {
     ORDER_AREA(
             "Я живу за МКАДом, привезёте?",
             "Да, обязательно. Всем самокатов! И Москве, и Московской области."
-    )
-    ;
+    );
 
     final String question;
     final String answer;
 
+    private FAQ(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+
+    public String getQuestion() {
+        return this.question;
+    }
+
+    public String getAnswer() {
+        return this.answer;
+    }
 }

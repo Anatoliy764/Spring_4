@@ -1,22 +1,24 @@
 package yandex_scooter.ui_test.pom.order;
 
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-@RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum ScooterColor {
 
     BLACK("#696969", "чёрный жемчуг"),
     GRAY("#696969", "серая безысходность");
 
-    @Getter
+    private final
     String hex;
 
-    @Getter
+    private final
     String name;
+
+    private ScooterColor(String hex, String name) {
+        this.hex = hex;
+        this.name = name;
+    }
 
     public static ScooterColor valueOfName(String name) {
         for (ScooterColor color : values()) {
@@ -34,5 +36,13 @@ public enum ScooterColor {
             }
         }
         return null;
+    }
+
+    public String getHex() {
+        return this.hex;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

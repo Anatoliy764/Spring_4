@@ -1,6 +1,5 @@
 package yandex_scooter.ui_test.pom;
 
-import lombok.Getter;
 import lombok.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,7 +12,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Getter
 public abstract class PageObjectModel {
 
     @NonNull
@@ -33,7 +31,7 @@ public abstract class PageObjectModel {
 
         // ждем пока элемент отобразится во избежание ошибок
         new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
-                .until(d ->isDisplayed());
+                .until(d -> isDisplayed());
     }
 
     public boolean isDisplayed() {
@@ -71,7 +69,7 @@ public abstract class PageObjectModel {
 
     public Collection<String> getCssClasses() {
         String cssClasses = getAttribute("class");
-        if(cssClasses == null || cssClasses.isEmpty()) {
+        if (cssClasses == null || cssClasses.isEmpty()) {
             return Collections.emptyList();
         }
         return Stream.of(cssClasses.split("\\s+")).collect(Collectors.toCollection(LinkedHashSet::new));
@@ -126,5 +124,17 @@ public abstract class PageObjectModel {
                 return super.webElement;
             }
         };
+    }
+
+    public @NonNull WebDriver getWebDriver() {
+        return this.webDriver;
+    }
+
+    public @NonNull By getLocator() {
+        return this.locator;
+    }
+
+    public WebElement getWebElement() {
+        return this.webElement;
     }
 }

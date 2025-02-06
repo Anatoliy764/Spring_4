@@ -12,7 +12,7 @@ import java.util.Objects;
  * Класс описывает UI поле для ввода.
  * Даже если sendKeys() устанавливает значение в поле для ввода, getText() возвращает пустую строку, а значение на самом деле присутствует в атрибуте "value".
  * Данный класс помогает извлечь значение
- * */
+ */
 public class ValueAttributeAwareInputField extends PageObjectModel {
     public ValueAttributeAwareInputField(@NonNull WebDriver webDriver, @NonNull By locator) {
         super(webDriver, locator);
@@ -21,7 +21,7 @@ public class ValueAttributeAwareInputField extends PageObjectModel {
     @Override
     public String getText() {
         String text = super.getText();
-        if(text.isEmpty()) {
+        if (text.isEmpty()) {
             text = getValueAttribute();
         }
         return text;
@@ -31,7 +31,7 @@ public class ValueAttributeAwareInputField extends PageObjectModel {
     public PageObjectModel clear() {
         validateState();
         webElement.clear();
-        if(!getValueAttribute().isEmpty()) {
+        if (!getValueAttribute().isEmpty()) {
             setValueAttribute("");
         }
         new WebDriverWait(webDriver, CommonConstant.TIME_OUT).until(d -> getText().isEmpty());

@@ -1,12 +1,14 @@
 package yandex_scooter.ui_test.util;
 
-import lombok.experimental.UtilityClass;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-@UtilityClass
-public class WebElementUtil {
+public final class WebElementUtil {
+
+    private WebElementUtil() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 
     public static WebElement deepSearch(WebDriver driver, String cssSelector) {
         JavascriptExecutor js = (JavascriptExecutor) driver;

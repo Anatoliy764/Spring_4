@@ -1,14 +1,10 @@
 package yandex_scooter.ui_test.pom.order;
 
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Duration;
 
-@Getter
-@RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public enum RentPeriod {
 
@@ -20,8 +16,13 @@ public enum RentPeriod {
     SIX_DAYS(Duration.ofDays(6), "шестеро суток"),
     SEVEN_DAYS(Duration.ofDays(7), "семеро суток");
 
-    final Duration duration;
-    final String name;
+    private final Duration duration;
+    private final String name;
+
+    private RentPeriod(Duration duration, String name) {
+        this.duration = duration;
+        this.name = name;
+    }
 
     public static RentPeriod valueOfDuration(Duration duration) {
         for (RentPeriod period : values()) {
@@ -43,5 +44,13 @@ public enum RentPeriod {
 
     public static RentPeriod random() {
         return values()[(int) (Math.random() * values().length)];
+    }
+
+    public Duration getDuration() {
+        return this.duration;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

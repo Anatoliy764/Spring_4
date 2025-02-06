@@ -1,12 +1,9 @@
 package yandex_scooter.ui_test.constants;
 
-import lombok.experimental.UtilityClass;
-
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 
-@UtilityClass
-public class CommonConstant {
+public final class CommonConstant {
     public static final Duration TIME_OUT = Duration.ofSeconds(10);
     public static final String URL_YANDEX_SCOOTER = "https://qa-scooter.praktikum-services.ru/";
     public static final String URL_YANDEX = "https://ya.ru/";
@@ -16,4 +13,7 @@ public class CommonConstant {
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     public static final DateTimeFormatter DATE_PICKER_FORMATTER = DateTimeFormatter.ofPattern(DATE_PICKER_PATTERN);
 
+    private CommonConstant() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 }

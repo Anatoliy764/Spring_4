@@ -1,7 +1,6 @@
 package yandex_scooter.ui_test.pom.order;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.openqa.selenium.By;
@@ -16,7 +15,10 @@ import yandex_scooter.ui_test.pom.ValueAttributeAwareInputField;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -28,7 +30,6 @@ public class Order extends PageObjectModel {
 
     private By orderLocator;
 
-    @Getter
     private final Tenant tenant;
 
     private Rent rent;
@@ -47,21 +48,24 @@ public class Order extends PageObjectModel {
                '}';
     }
 
+    public Tenant getTenant() {
+        return this.tenant;
+    }
+
     /**
      * Класс описывающий часть формы заказа относящуюся к арендатору
      */
     @FieldDefaults(level = AccessLevel.PRIVATE)
     class Tenant extends PageObjectModel {
 
-        @Getter
-        final WebElement formTitle;
+        private final WebElement formTitle;
 
-        final ValueAttributeAwareInputField name;
-        final ValueAttributeAwareInputField lastName;
-        final ValueAttributeAwareInputField scooterDeliveryAddress;
-        final ValueAttributeAwareInputField phoneNumber;
-        final ValueAttributeAwareInputField subwayStation;
-        final ValueAttributeAwareInputField nextButton;
+        private final ValueAttributeAwareInputField name;
+        private final ValueAttributeAwareInputField lastName;
+        private final ValueAttributeAwareInputField scooterDeliveryAddress;
+        private final ValueAttributeAwareInputField phoneNumber;
+        private final ValueAttributeAwareInputField subwayStation;
+        private final ValueAttributeAwareInputField nextButton;
 
         Tenant(@NonNull WebDriver webDriver) {
             super(webDriver, orderLocator);
@@ -80,7 +84,7 @@ public class Order extends PageObjectModel {
         public Rent clickNextButton() {
             nextButton.click();
 
-            if(rent == null) {
+            if (rent == null) {
                 rent = new Rent(webDriver, this);
             }
             return rent;
@@ -126,7 +130,7 @@ public class Order extends PageObjectModel {
         }
 
         public Tenant setSubwayStation(String subwayStation) {
-            
+
             this.subwayStation.sendKeys(subwayStation);
 
             WebElement subwayStationDropdown = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTIONS));
@@ -137,7 +141,7 @@ public class Order extends PageObjectModel {
             List<WebElement> foundOptions = subwayStationDropdown.findElements(By.tagName("button"));
 
             for (WebElement e : foundOptions) {
-                if(Objects.equals(e.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTION)).getText(), subwayStation)) {
+                if (Objects.equals(e.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTION)).getText(), subwayStation)) {
                     e.click();
                     break;
                 }
@@ -193,6 +197,10 @@ public class Order extends PageObjectModel {
                    ", phoneNumber=" + getPhoneNumber() +
                    '}';
         }
+
+        public WebElement getFormTitle() {
+            return this.formTitle;
+        }
     }
 
     /**
@@ -202,20 +210,20 @@ public class Order extends PageObjectModel {
     class Rent extends PageObjectModel {
 
         // Система позволяет выбрать дату в прошлом и при этом успешно создает заказ.
-        ValueAttributeAwareInputField scooterDeliveryDate;
+        private final ValueAttributeAwareInputField scooterDeliveryDate;
 
-        PageObjectModel period;
+        private final PageObjectModel period;
 
         // система позволяет выбрать несколько цветов одновременно и при этом успешно создает заказ
-        Map<ScooterColor, PageObjectModel> scooterColors;
+        private final Map<ScooterColor, PageObjectModel> scooterColors;
 
-        ValueAttributeAwareInputField comment;
+        private final ValueAttributeAwareInputField comment;
 
-        PageObjectModel backButton;
-        PageObjectModel orderButton;
+        private final PageObjectModel backButton;
+        private final PageObjectModel orderButton;
 
-        Tenant tenant;
-        
+        private final Tenant tenant;
+
         Rent(@NonNull WebDriver webDriver, Tenant tenant) {
             super(webDriver, orderLocator);
             this.tenant = tenant;
@@ -281,10 +289,10 @@ public class Order extends PageObjectModel {
 
         public Rent setPeriod(String period) {
             this.period.click();
-            List<WebElement> options =  this.period.findElement(By.className("Dropdown-menu")).findElements(By.tagName("div"));
+            List<WebElement> options = this.period.findElement(By.className("Dropdown-menu")).findElements(By.tagName("div"));
             for (WebElement option : options) {
                 String text = option.getText();
-                if(Objects.equals(period, text)) {
+                if (Objects.equals(period, text)) {
                     option.click();
                     break;
                 }
@@ -317,9 +325,9 @@ public class Order extends PageObjectModel {
         }
 
         /*
-        * Обязательные поля для ввода в форме "Про аренду" не валидируются как в форме "Для кого самокат",
-        * т.е. поля не подсвечиваются красным цветом и нет сообщений об ошибке, однако если поля пусты, то кнопка "Заказать" не работет.
-        * */
+         * Обязательные поля для ввода в форме "Про аренду" не валидируются как в форме "Для кого самокат",
+         * т.е. поля не подсвечиваются красным цветом и нет сообщений об ошибке, однако если поля пусты, то кнопка "Заказать" не работет.
+         * */
         public boolean isValid() {
             return !getScooterDeliveryDate().isEmpty() && !getPeriod().isEmpty();
         }
@@ -337,12 +345,12 @@ public class Order extends PageObjectModel {
 
     /**
      * Класс описывающий форму подтверждения заказа
-     * */
+     */
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     class Confirm extends PageObjectModel {
-        WebElement noButton;
-        WebElement yesButton;
-        Rent rent;
+        private final WebElement noButton;
+        private final WebElement yesButton;
+        private final Rent rent;
 
         Confirm(WebDriver driver, Rent rent) {
             super(driver, By.xpath(Locator.Order.Confirm.XPATH_ROOT));
@@ -364,7 +372,7 @@ public class Order extends PageObjectModel {
         }
 
         public Result clickYesButton() {
-            if(!yesButton.isEnabled()) {
+            if (!yesButton.isEnabled()) {
                 throw new IllegalStateException("Yes button is not enabled");
             }
             yesButton.click();
@@ -375,16 +383,16 @@ public class Order extends PageObjectModel {
 
     /**
      * Класс описывающий окно показывающее результат выполнения заказа
-     * */
+     */
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     class Result extends PageObjectModel {
         private final Pattern ORDER_ID_PATTERN = Pattern.compile("Номер заказа: (\\d+)");
         private final String SUCCESS_ORDER_TITLE = "Заказ оформлен";
 
-        WebElement title;
-        WebElement details;
+        private final WebElement title;
+        private final WebElement details;
 
-        WebElement statusButton;
+        private final WebElement statusButton;
 
         Result(WebDriver driver) {
             super(driver, By.xpath(Locator.Order.Result.XPATH_ROOT));
