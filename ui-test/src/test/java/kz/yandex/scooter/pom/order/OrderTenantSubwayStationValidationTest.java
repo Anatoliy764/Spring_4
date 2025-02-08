@@ -23,6 +23,7 @@ public class OrderTenantSubwayStationValidationTest {
     @Before
     public void setUp() {
 
+
         try {
             driver = WebDriverFactory.create();
             driver.get(CommonConstant.URL_YANDEX_SCOOTER);

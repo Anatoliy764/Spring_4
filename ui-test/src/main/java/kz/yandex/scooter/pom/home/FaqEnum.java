@@ -1,6 +1,6 @@
 package kz.yandex.scooter.pom.home;
 
-public enum FAQ {
+public enum FaqEnum {
 
     PRICE_AND_PAYMENT(
             "Сколько это стоит? И как оплатить?",
@@ -38,7 +38,7 @@ public enum FAQ {
     final String question;
     final String answer;
 
-    private FAQ(String question, String answer) {
+    private FaqEnum(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -49,5 +49,9 @@ public enum FAQ {
 
     public String getAnswer() {
         return this.answer;
+    }
+
+    public static FaqEnum valueOf(int ordinal) {
+        return values()[ordinal];
     }
 }

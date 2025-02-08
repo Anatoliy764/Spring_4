@@ -27,11 +27,14 @@ public abstract class PageObjectModel {
         this.webDriver = webDriver;
         this.locator = locator;
 
-        this.webElement = webDriver.findElement(locator);
-
-        // ждем пока элемент отобразится во избежание ошибок
-        new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
-                .until(d -> isDisplayed());
+        // ждем отображения элемента и извлекаем его до окончания времени ожидания.
+        this.webElement = new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
+                .until(driver -> {
+                    if (webDriver.findElement(locator).isDisplayed()) {
+                        return webDriver.findElement(locator);
+                    }
+                    return null;
+                });
     }
 
     public boolean isDisplayed() {

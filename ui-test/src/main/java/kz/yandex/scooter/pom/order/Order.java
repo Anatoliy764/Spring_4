@@ -294,6 +294,12 @@ public class Order extends PageObjectModel {
          * Кнопка "Назад" в форме заказа
          */
         public static final String XPATH_BACK_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[1]";
+
+        /**
+         * Выпадающий список периода аренды
+         * */
+        private static final String CLASS_PERIOD_DROPDOWN = "Dropdown-menu";
+        private static final String TAG_PERIOD_DROPDOWN_OPTION = "div";
         // endregion
 
         // Система позволяет выбрать дату в прошлом и при этом успешно создает заказ.
@@ -376,7 +382,8 @@ public class Order extends PageObjectModel {
 
         public Rent setPeriod(String period) {
             this.period.click();
-            List<WebElement> options = this.period.findElement(By.className("Dropdown-menu")).findElements(By.tagName("div"));
+            List<WebElement> options = this.period.findElement(By.className(CLASS_PERIOD_DROPDOWN))
+                    .findElements(By.tagName(TAG_PERIOD_DROPDOWN_OPTION));
             for (WebElement option : options) {
                 String text = option.getText();
                 if (Objects.equals(period, text)) {
