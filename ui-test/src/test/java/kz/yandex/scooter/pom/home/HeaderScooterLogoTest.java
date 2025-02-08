@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import kz.yandex.scooter.constants.CommonConstant;
-import kz.yandex.scooter.constants.Locator;
 import kz.yandex.scooter.util.WebDriverFactory;
 
 import java.util.Set;
@@ -90,7 +89,7 @@ public class HeaderScooterLogoTest {
         for (String tab : tabsAfterClick) {
             webDriver.switchTo().window(tab);
             try {
-                WebElement element = webDriver.findElement(By.xpath(Locator.HomePage.XPATH_TITLE));
+                WebElement element = webDriver.findElement(By.xpath(HomePage.XPATH_TITLE));
                 assertEquals("Самокат <br>на&nbsp;пару дней", element.getText());
             } catch (Exception e) {
                 fail("Home page element not found on current visible page");

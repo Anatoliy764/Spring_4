@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import kz.yandex.scooter.constants.CommonConstant;
-import kz.yandex.scooter.constants.Locator;
 import kz.yandex.scooter.pom.PageObjectModel;
 import kz.yandex.scooter.pom.ValueAttributeAwareInputField;
 
@@ -26,6 +25,22 @@ import java.util.stream.Collectors;
  */
 public class Order extends PageObjectModel {
 
+    // region locators
+    /**
+     * Всплывающее окно заказа
+     */
+    public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[2]";
+
+    public static final String CLASS_INVALID_INPUT_VALUE = "Input_Error__1Tx5d";
+    public static final String CLASS_INVALID_SELECT_OPTION = "Order_MetroError__1BtZb";
+
+    /**
+     * Окно с картинкой "Такого заказа нет"
+     */
+    public static final String CLASS_ORDER_NOT_FOUND = "Track_NotFound__6oaoY";
+    public static final String CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE = "#root > div > div.Track_Content__St6Kn > div.Track_NotFound__6oaoY > img";
+    // endregion
+
     private By orderLocator;
 
     private final Tenant tenant;
@@ -33,7 +48,7 @@ public class Order extends PageObjectModel {
     private Rent rent;
 
     public Order(@NonNull WebDriver webDriver) {
-        super(webDriver, By.xpath(Locator.Order.XPATH_ROOT));
+        super(webDriver, By.xpath(XPATH_ROOT));
         this.orderLocator = super.locator;
         tenant = new Tenant(webDriver);
     }
@@ -54,7 +69,46 @@ public class Order extends PageObjectModel {
      * Класс описывающий часть формы заказа относящуюся к арендатору
      */
     class Tenant extends PageObjectModel {
+        
+        //region locators
+        public static final String CLASS_FORM_TITLE = "Order_Header__BZXOb";
 
+        /**
+         * Поле для ввода имени арендатора
+         */
+        public static final String XPATH_NAME_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input";
+
+        /**
+         * Поле для ввода фамилии арендатора
+         */
+        public static final String XPATH_LASTNAME_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/input";
+
+
+        /**
+         * Поле для ввода адреса доставки самоката
+         */
+        public static final String XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[3]/input";
+
+        /**
+         * Выпадающий список для выбора станции метро
+         */
+        public static final String XPATH_SUBWAY_STATION_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div/div/input";
+        public static final String CLASS_SUBWAY_STATION_SELECT_OPTIONS = "select-search__options";
+        public static final String CLASS_SUBWAY_STATION_SELECT_OPTION = "Order_Text__2broi";
+        public static final String SELECTOR_SUBWAY_STATION_SELECT_OPTION_ERROR = "#root > div > div.Order_Content__bmtHS > div.Order_Form__17u6u > div.Order_UnderError__1VSDB > div.Order_MetroError__1BtZb";
+        public static final String XPATH_SUBWAY_STATION_SELECT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/div";
+
+        /**
+         * Поле для ввода номера телефона арендатора
+         */
+        public static final String XPATH_PHONE_NUMBER_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[5]/input";
+
+        /**
+         * Кнопка "Далее"
+         */
+        public static final String XPATH_NEXT_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button";
+        // endregion
+        
         private final WebElement formTitle;
 
         private final ValueAttributeAwareInputField name;
@@ -67,15 +121,15 @@ public class Order extends PageObjectModel {
         Tenant(@NonNull WebDriver webDriver) {
             super(webDriver, orderLocator);
 
-            formTitle = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_FORM_TITLE));
+            formTitle = webDriver.findElement(By.className(CLASS_FORM_TITLE));
 
             // getText() почему-то не возвращает значение даже если sendKeys() установил, поэтому берем из атрибута value
-            name = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NAME_INPUT));
-            lastName = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_LASTNAME_INPUT));
-            scooterDeliveryAddress = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
-            phoneNumber = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_PHONE_NUMBER_INPUT));
-            subwayStation = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_SUBWAY_STATION_INPUT));
-            nextButton = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Tenant.XPATH_NEXT_BTN));
+            name = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_NAME_INPUT));
+            lastName = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_LASTNAME_INPUT));
+            scooterDeliveryAddress = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_SCOOTER_DELIVERY_ADDRESS_INPUT));
+            phoneNumber = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_PHONE_NUMBER_INPUT));
+            subwayStation = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_SUBWAY_STATION_INPUT));
+            nextButton = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_NEXT_BTN));
         }
 
         public Rent clickNextButton() {
@@ -130,7 +184,7 @@ public class Order extends PageObjectModel {
 
             this.subwayStation.sendKeys(subwayStation);
 
-            WebElement subwayStationDropdown = webDriver.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTIONS));
+            WebElement subwayStationDropdown = webDriver.findElement(By.className(CLASS_SUBWAY_STATION_SELECT_OPTIONS));
 
             new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
                     .until(webDriver -> subwayStationDropdown.isDisplayed());
@@ -138,7 +192,7 @@ public class Order extends PageObjectModel {
             List<WebElement> foundOptions = subwayStationDropdown.findElements(By.tagName("button"));
 
             for (WebElement e : foundOptions) {
-                if (Objects.equals(e.findElement(By.className(Locator.Order.Tenant.CLASS_SUBWAY_STATION_SELECT_OPTION)).getText(), subwayStation)) {
+                if (Objects.equals(e.findElement(By.className(CLASS_SUBWAY_STATION_SELECT_OPTION)).getText(), subwayStation)) {
                     e.click();
                     break;
                 }
@@ -151,26 +205,26 @@ public class Order extends PageObjectModel {
         }
 
         public boolean isNameValid() {
-            return !this.name.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+            return !this.name.hasCssClass(CLASS_INVALID_INPUT_VALUE);
         }
 
         public boolean isLastNameValid() {
-            return !this.lastName.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+            return !this.lastName.hasCssClass(CLASS_INVALID_INPUT_VALUE);
         }
 
         public boolean isScooterDeliveryAddressValid() {
-            return !this.scooterDeliveryAddress.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+            return !this.scooterDeliveryAddress.hasCssClass(CLASS_INVALID_INPUT_VALUE);
         }
 
         public boolean isPhoneNumberValid() {
-            return !this.phoneNumber.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+            return !this.phoneNumber.hasCssClass(CLASS_INVALID_INPUT_VALUE);
         }
 
         public boolean isSubwayStationValid() {
             try {
-                return !webDriver.findElement(By.ByCssSelector.cssSelector(Locator.Order.Tenant.SELECTOR_SUBWAY_STATION_SELECT_OPTION_ERROR))
+                return !webDriver.findElement(By.ByCssSelector.cssSelector(SELECTOR_SUBWAY_STATION_SELECT_OPTION_ERROR))
                         .getDomAttribute("class")
-                        .equals(Locator.CLASS_INVALID_SELECT_OPTION);
+                        .equals(CLASS_INVALID_SELECT_OPTION);
             } catch (NoSuchElementException ignored) {
                 return true;
             }
@@ -205,6 +259,42 @@ public class Order extends PageObjectModel {
      */
     class Rent extends PageObjectModel {
 
+        //region locators
+        /**
+         * Поле для ввода даты доставки самоката
+         */
+        public static final String XPATH_SCOOTER_DELIVERY_DATE_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/div[1]/div/input";
+        public static final String CLASS_SCOOTER_DELIVERY_DATE_PICKER = "react-datepicker__month-container";
+        public static final String CLASS_SCOOTER_DELIVERY_DATE_PICKER_SELECTED_DAY = "react-datepicker__day--selected";
+
+        public static final String XPATH_PERIOD_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[2]";
+
+        /**
+         * Чекбокс для выбора черного цвета самоката
+         */
+        public static final String XPATH_SCOOTER_COLOR_BLACK_CHECKBOX = "//*[@id=\"black\"]";
+
+        /**
+         * Чекбокс для выбора серого цвета самоката
+         */
+        public static final String XPATH_SCOOTER_COLOR_GRAY_CHECKBOX = "//*[@id=\"grey\"]";
+
+        /**
+         * Поле для ввода комментария для курьера
+         */
+        public static final String XPATH_COMMENT_INPUT = "//*[@id=\"root\"]/div/div[2]/div[2]/div[4]/input";
+
+        /**
+         * Кнопка "Заказать" в форме заказа
+         */
+        public static final String XPATH_SUBMIT_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[2]";
+
+        /**
+         * Кнопка "Назад" в форме заказа
+         */
+        public static final String XPATH_BACK_BTN = "//*[@id=\"root\"]/div/div[2]/div[3]/button[1]";
+        // endregion
+
         // Система позволяет выбрать дату в прошлом и при этом успешно создает заказ.
         private final ValueAttributeAwareInputField scooterDeliveryDate;
 
@@ -224,14 +314,14 @@ public class Order extends PageObjectModel {
             super(webDriver, orderLocator);
             this.tenant = tenant;
 
-            scooterDeliveryDate = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_DELIVERY_DATE_INPUT));
-            period = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_PERIOD_INPUT));
+            scooterDeliveryDate = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_SCOOTER_DELIVERY_DATE_INPUT));
+            period = PageObjectModel.wrap(webDriver, By.xpath(XPATH_PERIOD_INPUT));
             scooterColors = new LinkedHashMap<>();
-            scooterColors.put(ScooterColor.BLACK, PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_COLOR_BLACK_CHECKBOX)));
-            scooterColors.put(ScooterColor.GRAY, PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SCOOTER_COLOR_GRAY_CHECKBOX)));
-            comment = new ValueAttributeAwareInputField(webDriver, By.xpath(Locator.Order.Rent.XPATH_COMMENT_INPUT));
-            backButton = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_BACK_BTN));
-            orderButton = PageObjectModel.wrap(webDriver, By.xpath(Locator.Order.Rent.XPATH_SUBMIT_BTN));
+            scooterColors.put(ScooterColor.BLACK, PageObjectModel.wrap(webDriver, By.xpath(XPATH_SCOOTER_COLOR_BLACK_CHECKBOX)));
+            scooterColors.put(ScooterColor.GRAY, PageObjectModel.wrap(webDriver, By.xpath(XPATH_SCOOTER_COLOR_GRAY_CHECKBOX)));
+            comment = new ValueAttributeAwareInputField(webDriver, By.xpath(XPATH_COMMENT_INPUT));
+            backButton = PageObjectModel.wrap(webDriver, By.xpath(XPATH_BACK_BTN));
+            orderButton = PageObjectModel.wrap(webDriver, By.xpath(XPATH_SUBMIT_BTN));
         }
 
         public Tenant clickBackButton() {
@@ -256,9 +346,9 @@ public class Order extends PageObjectModel {
             scooterDeliveryDate.sendKeys(date);
 
             new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
-                    .until(d -> d.findElement(By.className(Locator.Order.Rent.CLASS_SCOOTER_DELIVERY_DATE_PICKER)).isDisplayed());
+                    .until(d -> d.findElement(By.className(CLASS_SCOOTER_DELIVERY_DATE_PICKER)).isDisplayed());
 
-            WebElement selectedDay = webDriver.findElement(By.className(Locator.Order.Rent.CLASS_SCOOTER_DELIVERY_DATE_PICKER_SELECTED_DAY));
+            WebElement selectedDay = webDriver.findElement(By.className(CLASS_SCOOTER_DELIVERY_DATE_PICKER_SELECTED_DAY));
 
             selectedDay.click();
 
@@ -274,7 +364,7 @@ public class Order extends PageObjectModel {
 
             boolean isValid = value != null &&
                               !value.isEmpty() &&
-                              !scooterDeliveryDate.hasCssClass(Locator.CLASS_INVALID_INPUT_VALUE);
+                              !scooterDeliveryDate.hasCssClass(CLASS_INVALID_INPUT_VALUE);
             try {
                 CommonConstant.DATE_FORMATTER.parse(value, LocalDate::from);
             } catch (DateTimeParseException e) {
@@ -298,7 +388,7 @@ public class Order extends PageObjectModel {
 
         public String getPeriod() {
             this.period.getText();
-            return webDriver.findElement(By.xpath(Locator.Order.Rent.XPATH_PERIOD_INPUT)).getText();
+            return webDriver.findElement(By.xpath(XPATH_PERIOD_INPUT)).getText();
         }
 
         public Rent checkScooterColor(ScooterColor color) {
@@ -343,14 +433,32 @@ public class Order extends PageObjectModel {
      * Класс описывающий форму подтверждения заказа
      */
     class Confirm extends PageObjectModel {
+
+        // region locators
+        /**
+         * Окно подтверждения заказа
+         */
+        public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[5]";
+
+        /**
+         * Кнопка "Да" подтверждающая и создающая заказ
+         */
+        public static final String XPATH_CONFIRM_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[2]";
+
+        /**
+         * Кнопка "Нет" возвращающая обратно на форму заказа
+         */
+        public static final String XPATH_CANCEL_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button[1]";
+        // endregion
+        
         private final WebElement noButton;
         private final WebElement yesButton;
         private final Rent rent;
 
         Confirm(WebDriver driver, Rent rent) {
-            super(driver, By.xpath(Locator.Order.Confirm.XPATH_ROOT));
-            noButton = driver.findElement(By.xpath(Locator.Order.Confirm.XPATH_CANCEL_BTN));
-            yesButton = driver.findElement(By.xpath(Locator.Order.Confirm.XPATH_CONFIRM_BTN));
+            super(driver, By.xpath(XPATH_ROOT));
+            noButton = driver.findElement(By.xpath(XPATH_CANCEL_BTN));
+            yesButton = driver.findElement(By.xpath(XPATH_CONFIRM_BTN));
             this.rent = rent;
         }
 
@@ -380,6 +488,29 @@ public class Order extends PageObjectModel {
      * Класс описывающий окно показывающее результат выполнения заказа
      */
     class Result extends PageObjectModel {
+        
+        // region locators
+        /**
+         * Окно отображающее результат оформления заказа
+         */
+        public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div[2]/div[5]";
+
+        /**
+         * Заголовок сообщающий результат оформления заказа
+         */
+        public static final String XPATH_TITLE = "//*[@id=\"root\"]/div/div[2]/div[5]/div[1]";
+
+        /**
+         * Текст содержащий подробную информацию о результате операции, а так же содержащий номер заказа
+         */
+        public static final String XPATH_DETAILS = "//*[@id=\"root\"]/div/div[2]/div[5]/div[1]/div";
+
+        /**
+         * Кнопка "Посмотреть статус" заказа
+         */
+        public static final String XPATH_SHOW_STATUS_BTN = "//*[@id=\"root\"]/div/div[2]/div[5]/div[2]/button";
+        // endregion
+        
         private final Pattern ORDER_ID_PATTERN = Pattern.compile("Номер заказа: (\\d+)");
         private final String SUCCESS_ORDER_TITLE = "Заказ оформлен";
 
@@ -389,10 +520,10 @@ public class Order extends PageObjectModel {
         private final WebElement statusButton;
 
         Result(WebDriver driver) {
-            super(driver, By.xpath(Locator.Order.Result.XPATH_ROOT));
-            title = driver.findElement(By.xpath(Locator.Order.Result.XPATH_TITLE));
-            details = driver.findElement(By.xpath(Locator.Order.Result.XPATH_DETAILS));
-            statusButton = driver.findElement(By.xpath(Locator.Order.Result.XPATH_SHOW_STATUS_BTN));
+            super(driver, By.xpath(XPATH_ROOT));
+            title = driver.findElement(By.xpath(XPATH_TITLE));
+            details = driver.findElement(By.xpath(XPATH_DETAILS));
+            statusButton = driver.findElement(By.xpath(XPATH_SHOW_STATUS_BTN));
         }
 
         public String getTitle() {

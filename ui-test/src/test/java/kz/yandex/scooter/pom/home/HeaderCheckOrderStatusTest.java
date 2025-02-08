@@ -1,5 +1,6 @@
 package kz.yandex.scooter.pom.home;
 
+import kz.yandex.scooter.pom.order.Order;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import kz.yandex.scooter.constants.CommonConstant;
-import kz.yandex.scooter.constants.Locator;
 import kz.yandex.scooter.util.WebDriverFactory;
 
 import static org.junit.Assert.*;
@@ -42,7 +42,7 @@ public class HeaderCheckOrderStatusTest {
 
         WebElement orderNotFoundImage = null;
         try {
-            orderNotFoundImage = webDriver.findElement(By.ByCssSelector.cssSelector(Locator.OrderTracking.CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE));
+            orderNotFoundImage = webDriver.findElement(By.ByCssSelector.cssSelector(Order.CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE));
         } catch (NoSuchElementException e) {
             fail("Не найден ожидаемый компонент с картинкой с текстом \"Такого заказа нет\" " + e.getMessage());
         }

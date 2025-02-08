@@ -6,11 +6,46 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import kz.yandex.scooter.constants.CommonConstant;
-import kz.yandex.scooter.constants.Locator;
 import kz.yandex.scooter.pom.PageObjectModel;
 import kz.yandex.scooter.pom.order.Order;
 
 public class Header extends PageObjectModel {
+
+    /**
+     * Заголовок главной страницы
+     */
+    public static final String XPATH_ROOT = "//*[@id=\"root\"]/div/div/div[1]";
+
+    /**
+     * Логотип "Самокат"
+     */
+    public static final String CLASS_SCOOTER_LOGO = "Header_LogoScooter__3lsAR";
+
+    /**
+     * Логотип "Яндекс"
+     */
+    public static final String CLASS_YANDEX_LOGO = "Header_LogoYandex__3TSOI";
+
+    /**
+     * Кнопка "Заказать"
+     */
+    public static final String XPATH_ORDER_BUTTON = "//*[@id=\"root\"]/div/div/div[1]/div[2]/button[1]";
+
+    /**
+     * Кнопка "Статус заказа"
+     */
+    public static final String XPATH_ORDER_STATUS_BUTTON = "//*[@id=\"root\"]/div/div/div[1]/div[2]/button[2]";
+
+    /**
+     * Поле для ввода идентификатора заказа
+     */
+    public static final String XPATH_ORDER_ID_INPUT = "//*[@id=\"root\"]/div/div/div[1]/div[3]/div/input";
+
+    /**
+     * Кнопка "Go!" запускающая поиск заказа по идентификатору и открывающая форму деталей заказа или форму,
+     * сообщающую о том что заказ не найден
+     */
+    public static final String XPATH_ORDER_ID_SUBMIT_BUTTON = "//*[@id=\"root\"]/div/div/div[1]/div[3]/button";
 
     // объявлены как final т.к. видны в хидере
     private final WebElement yandexLogo;
@@ -23,12 +58,12 @@ public class Header extends PageObjectModel {
     private WebElement orderIdSubmitButton;
 
     public Header(@NonNull WebDriver webDriver) {
-        super(webDriver, By.xpath(Locator.Header.XPATH_ROOT));
+        super(webDriver, By.xpath(XPATH_ROOT));
 
-        yandexLogo = webElement.findElement(By.className(Locator.Header.CLASS_YANDEX_LOGO));
-        scooterLogo = webElement.findElement(By.className(Locator.Header.CLASS_SCOOTER_LOGO));
-        orderButton = webElement.findElement(By.xpath(Locator.Header.XPATH_ORDER_BUTTON));
-        orderStatusButton = webElement.findElement(By.xpath(Locator.Header.XPATH_ORDER_STATUS_BUTTON));
+        yandexLogo = webElement.findElement(By.className(CLASS_YANDEX_LOGO));
+        scooterLogo = webElement.findElement(By.className(CLASS_SCOOTER_LOGO));
+        orderButton = webElement.findElement(By.xpath(XPATH_ORDER_BUTTON));
+        orderStatusButton = webElement.findElement(By.xpath(XPATH_ORDER_STATUS_BUTTON));
     }
 
     public Order clickOrderButton() {
@@ -54,8 +89,8 @@ public class Header extends PageObjectModel {
         orderStatusButton.click();
 
         // инициализируем кнопку и поле для ввода
-        orderIdInput = webDriver.findElement(By.xpath(Locator.Header.XPATH_ORDER_ID_INPUT));
-        orderIdSubmitButton = webDriver.findElement(By.xpath(Locator.Header.XPATH_ORDER_ID_SUBMIT_BUTTON));
+        orderIdInput = webDriver.findElement(By.xpath(XPATH_ORDER_ID_INPUT));
+        orderIdSubmitButton = webDriver.findElement(By.xpath(XPATH_ORDER_ID_SUBMIT_BUTTON));
 
         // ждем отображения поля для ввода идентификатора заказа и кнопки Go!
         new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
