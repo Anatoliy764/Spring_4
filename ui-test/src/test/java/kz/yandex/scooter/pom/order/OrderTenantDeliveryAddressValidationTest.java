@@ -8,10 +8,20 @@ import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.home.Header;
 import kz.yandex.scooter.util.WebDriverFactory;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class OrderTenantDeliveryAddressValidationTest {
+
+    private static final String VALID_MOSCOW_ADDRESS = "Романов переулок, 7, Москва, 125009";
+    private static final String INVALID_FOREIGN_ADDRESS = "Бейкер-стрит, 221B, Лондон";
+    private static final String BLANK_ADDRESS = " ";
+    private static final String EMPTY_ADDRESS = "";
+    private static final String SHORT_ADDRESS = "Б";
+    private static final String LONG_ADDRESS = "Бейкер-стрит, 221B, Лондонннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннн";
+    private static final String DIGITS_ONLY_ADDRESS = "12345";
+    private static final String LATIN_ADDRESS = "Romanov lane, 7, Moscow, 125009";
+    private static final String SPECIAL_CHARS_ADDRESS = "!@#$%^&*()-_=+";
+
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
@@ -32,7 +42,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     // Существующий адрес в пределах московской области считается валидным
     @Test
     public void testScooterDeliveryAddressShouldBeValid() {
-        tenant.setScooterDeliveryAddress("Романов переулок, 7, Москва, 125009");
+        tenant.setScooterDeliveryAddress(VALID_MOSCOW_ADDRESS);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -46,7 +56,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     // считаем что все что за переделами России не валидно.
     @Test
     public void testScooterDeliveryAddressShouldBeInValid() {
-        tenant.setScooterDeliveryAddress("Бейкер-стрит, 221B, Лондон");
+        tenant.setScooterDeliveryAddress(INVALID_FOREIGN_ADDRESS);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -55,7 +65,7 @@ public class OrderTenantDeliveryAddressValidationTest {
 
     @Test
     public void testBlankScooterDeliveryAddressShouldBeInvalid() {
-        tenant.setScooterDeliveryAddress(" ");
+        tenant.setScooterDeliveryAddress(BLANK_ADDRESS);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -64,7 +74,7 @@ public class OrderTenantDeliveryAddressValidationTest {
 
     @Test
     public void testEmptyScooterDeliveryAddressShouldBeInvalid() {
-        tenant.setScooterDeliveryAddress("");
+        tenant.setScooterDeliveryAddress(EMPTY_ADDRESS);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -73,7 +83,7 @@ public class OrderTenantDeliveryAddressValidationTest {
 
     @Test
     public void testShortScooterDeliveryAddressShouldBeInvalid() {
-        tenant.setScooterDeliveryAddress("Б");
+        tenant.setScooterDeliveryAddress(SHORT_ADDRESS);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -83,7 +93,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     @Test
     public void testLongScooterDeliveryAddressShouldBeInvalid() {
 
-        tenant.setScooterDeliveryAddress("Бейкер-стрит, 221B, Лондоннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннннн");
+        tenant.setScooterDeliveryAddress(LONG_ADDRESS);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -94,7 +104,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     @Test
     public void testDigitsOnlyScooterDeliveryAddressShouldBeInvalid() {
 
-        tenant.setScooterDeliveryAddress("12345");
+        tenant.setScooterDeliveryAddress(DIGITS_ONLY_ADDRESS);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -111,7 +121,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     @Test
     public void testLatinScooterDeliveryAddressShouldBeInvalid() {
 
-        tenant.setScooterDeliveryAddress("Romanov lane, 7, Moscow, 125009");
+        tenant.setScooterDeliveryAddress(LATIN_ADDRESS);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -122,7 +132,7 @@ public class OrderTenantDeliveryAddressValidationTest {
     @Test
     public void testSpecialCharsScooterDeliveryAddressShouldBeInvalid() {
 
-        tenant.setScooterDeliveryAddress("!@#$%^&*()-_=+").getWebElement().click();
+        tenant.setScooterDeliveryAddress(SPECIAL_CHARS_ADDRESS).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();

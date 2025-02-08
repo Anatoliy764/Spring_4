@@ -12,6 +12,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OrderTenantLastNameValidationTest {
+    private static final String VALID_LAST_NAME = "Гослинг";
+    private static final String BLANK_LAST_NAME = " ";
+    private static final String EMPTY_LAST_NAME = "";
+    private static final String SHORT_LAST_NAME = "Г";
+    private static final String LONG_INVALID_LAST_NAME = "Вольфешлегельштайнхаузенбергердорффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффф";
+    private static final String DIGIT_LAST_NAME = "12345";
+    private static final String LATIN_LAST_NAME = "Gosling";
+    private static final String LOWERCASE_LAST_NAME = "гослинг";
+    private static final String UPPERCASE_LAST_NAME = "ГОСЛИНГ";
+    private static final String SPACE_LAST_NAME = " Гослинг ";
+    private static final String MIDDLE_SPACE_LAST_NAME = "Гос линг";
+    private static final String SPECIAL_CHARS_LAST_NAME = "!@#$%^&*()-_=+";
+
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
@@ -31,7 +44,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testLastNameShouldBeValid() {
-        tenant.setLastName("Гослинг");
+        tenant.setLastName(VALID_LAST_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -40,7 +53,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testBlankLastNameShouldBeInvalid() {
-        tenant.setLastName(" ");
+        tenant.setLastName(BLANK_LAST_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -49,7 +62,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testEmptyLastNameShouldBeInvalid() {
-        tenant.setLastName("");
+        tenant.setLastName(EMPTY_LAST_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -58,7 +71,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testShortLastNameShouldBeInvalid() {
-        tenant.setLastName("Г");
+        tenant.setLastName(SHORT_LAST_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -67,8 +80,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testLongLastNameShouldBeInvalid() {
-
-        tenant.setLastName("Вольфешлегельштайнхаузенбергердорффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффффф");
+        tenant.setLastName(LONG_INVALID_LAST_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -78,8 +90,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testDigitLastNameShouldBeInvalid() {
-
-        tenant.setLastName("12345");
+        tenant.setLastName(DIGIT_LAST_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -95,8 +106,7 @@ public class OrderTenantLastNameValidationTest {
      * */
     @Test
     public void testLatinLastNameShouldBeInvalid() {
-
-        tenant.setLastName("Gosling");
+        tenant.setLastName(LATIN_LAST_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -108,8 +118,7 @@ public class OrderTenantLastNameValidationTest {
     // Хотя как правило системы сами переводят первую букву в верхний регистр.
     @Test
     public void testLowercaseLastNameShouldBeInvalid() {
-
-        tenant.setLastName("гослинг").getWebElement().click();
+        tenant.setLastName(LOWERCASE_LAST_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -119,8 +128,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testUppercaseLastNameShouldBeInvalid() {
-
-        tenant.setLastName("ГОСЛИНГ").getWebElement().click();
+        tenant.setLastName(UPPERCASE_LAST_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -133,8 +141,7 @@ public class OrderTenantLastNameValidationTest {
     // потому считаем ошибкой если фронт допускает ввод пробелов.
     @Test
     public void testSpaceLastNameShouldBeInvalid() {
-
-        tenant.setLastName(" Гослинг ").getWebElement().click();
+        tenant.setLastName(SPACE_LAST_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -145,8 +152,7 @@ public class OrderTenantLastNameValidationTest {
     // Фамилии в которых есть пробел встречаются, например "Ван Гог"
     @Test
     public void testMiddleSpaceLastNameShouldBeValid() {
-
-        tenant.setLastName("Гос линг");
+        tenant.setLastName(MIDDLE_SPACE_LAST_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -156,8 +162,7 @@ public class OrderTenantLastNameValidationTest {
 
     @Test
     public void testSpecialCharsLastNameShouldBeInvalid() {
-
-        tenant.setLastName("!@#$%^&*()-_=+").getWebElement().click();
+        tenant.setLastName(SPECIAL_CHARS_LAST_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();

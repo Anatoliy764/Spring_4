@@ -13,6 +13,16 @@ import static org.junit.Assert.assertTrue;
 
 public class OrderTenantPhoneNumberValidationTest {
 
+    private static final String EMPTY_PHONE_NUMBER = "";
+    private static final String BLANK_PHONE_NUMBER = " ";
+    private static final String LETTER_PHONE_NUMBER = "ffff";
+    private static final String SHORT_PHONE_NUMBER = "9999";
+    private static final String LONG_PHONE_NUMBER = "999999999999999";
+    private static final String SPECIAL_CHARS_PHONE_NUMBER = "!@#$%^&*()-+";
+    private static final String VALID_PLUS_PREFIX_PHONE_NUMBER = "+996706696409";
+    private static final String VALID_PHONE_NUMBER = "996706696409";
+
+
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
@@ -33,7 +43,7 @@ public class OrderTenantPhoneNumberValidationTest {
     // region Phone number tests
     @Test
     public void testEmptyPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber("");
+        tenant.setPhoneNumber(EMPTY_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -41,7 +51,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testBlankPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber(" ");
+        tenant.setPhoneNumber(BLANK_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -49,7 +59,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testLetterPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber("ffff");
+        tenant.setPhoneNumber(LETTER_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -57,7 +67,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testShortPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber("9999");
+        tenant.setPhoneNumber(SHORT_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -65,7 +75,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testLongPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber("999999999999999");
+        tenant.setPhoneNumber(LONG_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -73,7 +83,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testSpecialCharsPhoneNumberShouldBeInvalid() {
-        tenant.setPhoneNumber("!@#$%^&*()-+");
+        tenant.setPhoneNumber(SPECIAL_CHARS_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertFalse(tenant.isPhoneNumberValid());
@@ -81,7 +91,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testPlusPrefixPhoneNumberShouldBeValid() {
-        tenant.setPhoneNumber("+996706696409");
+        tenant.setPhoneNumber(VALID_PLUS_PREFIX_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertTrue(tenant.isPhoneNumberValid());
@@ -89,7 +99,7 @@ public class OrderTenantPhoneNumberValidationTest {
 
     @Test
     public void testPhoneNumberShouldBeValid() {
-        tenant.setPhoneNumber("996706696409");
+        tenant.setPhoneNumber(VALID_PHONE_NUMBER);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
         assertTrue(tenant.isPhoneNumberValid());

@@ -12,6 +12,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OrderTenantNameValidationTest {
+
+    private static final String VALID_NAME = "Джеймс";
+    private static final String BLANK_NAME = " ";
+    private static final String EMPTY_NAME = "";
+    private static final String SHORT_NAME = "Д";
+    private static final String LONG_NAME =
+            "Ддддддддддддддддддддджжжжжжжжжжжжжжжжжжжжжжжеееееееееееееееееееееееееееееее..."
+            + "ййййййййййййймммммммммммммммммммммммммммммммсссссссссссссссссссс";
+    private static final String DIGIT_NAME = "12345";
+    private static final String LATIN_NAME = "James";
+    private static final String LOWERCASE_NAME = "джеймс";
+    private static final String UPPERCASE_NAME = "ДЖЕЙМС";
+    private static final String NAME_WITH_SPACES = " Джеймс ";
+    private static final String NAME_WITH_MIDDLE_SPACE = "Дже ймс";
+    private static final String SPECIAL_CHARS_NAME = "!@#$%^&*()-_=+";
+
+
     private static WebDriver driver;
 
     private static Order.Tenant tenant;
@@ -33,7 +50,7 @@ public class OrderTenantNameValidationTest {
 
     @Test
     public void testNameShouldBeValid() {
-        tenant.setName("Джеймс");
+        tenant.setName(VALID_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -42,7 +59,7 @@ public class OrderTenantNameValidationTest {
 
     @Test
     public void testBlankNameShouldBeInvalid() {
-        tenant.setName(" ");
+        tenant.setName(BLANK_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме 
         tenant.getFormTitle().click();
 
@@ -51,7 +68,7 @@ public class OrderTenantNameValidationTest {
 
     @Test
     public void testEmptyNameShouldBeInvalid() {
-        tenant.setName("");
+        tenant.setName(EMPTY_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
 
@@ -60,7 +77,7 @@ public class OrderTenantNameValidationTest {
 
     @Test
     public void testShortNameShouldBeInvalid() {
-        tenant.setName("Д");
+        tenant.setName(SHORT_NAME);
         // на всякий случай инициируем валидацию на фронте кликом по форме 
         tenant.getFormTitle().click();
 
@@ -70,7 +87,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testLongNameShouldBeInvalid() {
 
-        tenant.setName("Ддддддддддддддддддддджжжжжжжжжжжжжжжжжжжжжжжеееееееееееееееееееееееееееееееейййййййййййййййййййййййййййййййййймммммммммммммммммммммммммммммсссссссссссссссссссссс");
+        tenant.setName(LONG_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -81,7 +98,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testDigitNameShouldBeInvalid() {
 
-        tenant.setName("12345");
+        tenant.setName(DIGIT_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -98,7 +115,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testLatinNameShouldBeInvalid() {
 
-        tenant.setName("James");
+        tenant.setName(LATIN_NAME);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -111,7 +128,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testLowercaseNameShouldBeInvalid() {
 
-        tenant.setName("джеймс").getWebElement().click();
+        tenant.setName(LOWERCASE_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -124,7 +141,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testUppercaseNameShouldBeInvalid() {
 
-        tenant.setName("ДЖЕЙМС").getWebElement().click();
+        tenant.setName(UPPERCASE_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -138,7 +155,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testSpaceNameShouldBeInvalid() {
 
-        tenant.setName(" Джеймс ").getWebElement().click();
+        tenant.setName(NAME_WITH_SPACES).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -151,7 +168,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testMiddleSpaceNameShouldBeValid() {
 
-        tenant.setName("Дже ймс");
+        tenant.setName(NAME_WITH_MIDDLE_SPACE);
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
@@ -162,7 +179,7 @@ public class OrderTenantNameValidationTest {
     @Test
     public void testSpecialCharsNameShouldBeInvalid() {
 
-        tenant.setName("!@#$%^&*()-_=+").getWebElement().click();
+        tenant.setName(SPECIAL_CHARS_NAME).getWebElement().click();
 
         // на всякий случай инициируем валидацию на фронте кликом по форме
         tenant.getFormTitle().click();
