@@ -1,8 +1,6 @@
 package kz.yandex.scooter.pom.order;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.home.Header;
@@ -23,12 +21,12 @@ public class OrderTenantPhoneNumberValidationTest {
     private static final String VALID_PHONE_NUMBER = "996706696409";
 
 
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private static Order.Tenant tenant;
+    private Order.Tenant tenant;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
 
         try {
             driver = WebDriverFactory.create();
@@ -106,8 +104,8 @@ public class OrderTenantPhoneNumberValidationTest {
     }
     // endregion
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         driver.close();
     }
 }

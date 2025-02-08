@@ -1,9 +1,6 @@
 package kz.yandex.scooter.pom.order;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -19,12 +16,12 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(OrderedRunner.class)
 public class OrderTenantSubwayStationValidationTest {
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private static Order.Tenant tenant;
+    private Order.Tenant tenant;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
 
         try {
             driver = WebDriverFactory.create();
@@ -60,8 +57,8 @@ public class OrderTenantSubwayStationValidationTest {
         assertTrue(tenant.isSubwayStationValid());
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         driver.close();
     }
 }

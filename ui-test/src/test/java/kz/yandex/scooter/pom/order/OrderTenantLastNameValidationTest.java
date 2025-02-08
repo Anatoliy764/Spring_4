@@ -1,8 +1,6 @@
 package kz.yandex.scooter.pom.order;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.home.Header;
@@ -25,12 +23,12 @@ public class OrderTenantLastNameValidationTest {
     private static final String MIDDLE_SPACE_LAST_NAME = "Гос линг";
     private static final String SPECIAL_CHARS_LAST_NAME = "!@#$%^&*()-_=+";
 
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private static Order.Tenant tenant;
+    private Order.Tenant tenant;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
 
         try {
             driver = WebDriverFactory.create();
@@ -170,8 +168,8 @@ public class OrderTenantLastNameValidationTest {
         assertFalse(tenant.isLastNameValid());
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         driver.close();
     }
 }

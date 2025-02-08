@@ -1,8 +1,6 @@
 package kz.yandex.scooter.pom.order;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.home.Header;
@@ -29,12 +27,12 @@ public class OrderTenantNameValidationTest {
     private static final String SPECIAL_CHARS_NAME = "!@#$%^&*()-_=+";
 
 
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private static Order.Tenant tenant;
+    private Order.Tenant tenant;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
 
         try {
             driver = WebDriverFactory.create();
@@ -188,8 +186,8 @@ public class OrderTenantNameValidationTest {
     }
     // endregion
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         driver.close();
     }
 }

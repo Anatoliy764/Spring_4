@@ -1,8 +1,6 @@
 package kz.yandex.scooter.pom.order;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.home.Header;
@@ -22,12 +20,12 @@ public class OrderTenantDeliveryAddressValidationTest {
     private static final String LATIN_ADDRESS = "Romanov lane, 7, Moscow, 125009";
     private static final String SPECIAL_CHARS_ADDRESS = "!@#$%^&*()-_=+";
 
-    private static WebDriver driver;
+    private WebDriver driver;
 
-    private static Order.Tenant tenant;
+    private Order.Tenant tenant;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
 
         try {
             driver = WebDriverFactory.create();
@@ -140,8 +138,8 @@ public class OrderTenantDeliveryAddressValidationTest {
         assertFalse(tenant.isScooterDeliveryAddressValid());
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         driver.close();
     }
 }
