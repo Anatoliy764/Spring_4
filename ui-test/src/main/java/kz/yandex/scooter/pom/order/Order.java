@@ -37,6 +37,7 @@ public class Order extends PageObjectModel {
     /**
      * Окно с картинкой "Такого заказа нет"
      */
+    public static final String CLASS_ORDER_INFO = "Track_OrderInfo__2fpDL";
     public static final String CLASS_ORDER_NOT_FOUND = "Track_NotFound__6oaoY";
     public static final String CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE = "#root > div > div.Track_Content__St6Kn > div.Track_NotFound__6oaoY > img";
     // endregion

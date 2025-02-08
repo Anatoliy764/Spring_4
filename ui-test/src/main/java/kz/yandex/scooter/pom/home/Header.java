@@ -1,13 +1,15 @@
 package kz.yandex.scooter.pom.home;
 
-import lombok.NonNull;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.pom.PageObjectModel;
 import kz.yandex.scooter.pom.order.Order;
+import lombok.NonNull;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.Objects;
 
 public class Header extends PageObjectModel {
 
@@ -57,6 +59,8 @@ public class Header extends PageObjectModel {
     private WebElement orderIdInput;
     private WebElement orderIdSubmitButton;
 
+    private String orderId;
+
     public Header(@NonNull WebDriver webDriver) {
         super(webDriver, By.xpath(XPATH_ROOT));
 
@@ -103,6 +107,7 @@ public class Header extends PageObjectModel {
         validateOrderIdInputState();
         orderIdInput.clear();
         orderIdInput.sendKeys(orderId);
+        this.orderId = orderId;
         return this;
     }
 
@@ -137,6 +142,24 @@ public class Header extends PageObjectModel {
             throw new IllegalStateException("Кнопка \"Go!\" не доступна для нажатия");
         }
         orderIdSubmitButton.click();
+
+        WebElement element = new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
+                .until(driver -> {
+                    if (driver.findElement(By.cssSelector(Order.CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE)).isDisplayed()) {
+                        return driver.findElement(By.cssSelector(Order.CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE));
+                    } else if (driver.findElement(By.className(Order.CLASS_ORDER_INFO)).isDisplayed()) {
+                        return driver.findElement(By.className(Order.CLASS_ORDER_INFO));
+                    }
+                    return null;
+                });
+
+        if (Objects.equals("img", element.getTagName())) {
+            String imageSource = element.getDomAttribute("src");
+
+            if(Objects.equals("/assets/not-found.png", imageSource.trim())) {
+                throw new IllegalArgumentException(String.format("Такого заказа нет. Точно верный номер: %s?",  orderId));
+            }
+        }
         return this;
     }
 

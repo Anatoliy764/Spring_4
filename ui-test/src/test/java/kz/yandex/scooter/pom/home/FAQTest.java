@@ -1,8 +1,6 @@
 package kz.yandex.scooter.pom.home;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -15,10 +13,10 @@ import static org.junit.Assert.*;
 
 public class FAQTest {
 
-    private static WebDriver webDriver;
+    private WebDriver webDriver;
 
-    @BeforeClass
-    public static void init() {
+    @Before
+    public void init() {
         try {
             webDriver = WebDriverFactory.create();
             webDriver.get(CommonConstant.URL_YANDEX_SCOOTER);
@@ -140,9 +138,9 @@ public class FAQTest {
         assertEquals(FAQ.ORDER_AREA.getAnswer(), answer);
     }
 
-    @AfterClass
-    public static void tearDown() {
-        webDriver.quit();
+    @After
+    public void tearDown() {
+        webDriver.close();
     }
 
 }

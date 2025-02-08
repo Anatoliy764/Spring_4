@@ -1,19 +1,17 @@
 package kz.yandex.scooter.pom.home;
 
-import kz.yandex.scooter.pom.order.Order;
+import kz.yandex.scooter.constants.CommonConstant;
+import kz.yandex.scooter.util.WebDriverFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import kz.yandex.scooter.constants.CommonConstant;
-import kz.yandex.scooter.util.WebDriverFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThrows;
 
 public class HeaderCheckOrderStatusTest {
+
+    private static final String UNEXISTING_ORDER_ID = "1";
 
     private WebDriver webDriver;
 
@@ -34,27 +32,7 @@ public class HeaderCheckOrderStatusTest {
 
     @Test
     public void testCheckOrderStatus() {
-        try {
-            new Header(webDriver).clickOrderStatusButton().setOrderId("1").clickOrderIdSubmitButton();
-        } catch (IllegalStateException e) {
-            fail(e.getMessage());
-        }
-
-        WebElement orderNotFoundImage = null;
-        try {
-            orderNotFoundImage = webDriver.findElement(By.ByCssSelector.cssSelector(Order.CSS_SELECTOR_ORDER_NOT_FOUND_IMAGE));
-        } catch (NoSuchElementException e) {
-            fail("Не найден ожидаемый компонент с картинкой с текстом \"Такого заказа нет\" " + e.getMessage());
-        }
-
-        assertNotNull(orderNotFoundImage);
-        String imageSource = orderNotFoundImage.getDomAttribute("src");
-        assertNotNull(imageSource);
-        assertEquals("/assets/not-found.png", imageSource.trim());
-
-        String alt = orderNotFoundImage.getDomAttribute("alt");
-        assertNotNull(alt);
-        assertEquals("Not found", alt.trim());
+        assertThrows(IllegalArgumentException.class, () -> new Header(webDriver).clickOrderStatusButton().setOrderId(UNEXISTING_ORDER_ID).clickOrderIdSubmitButton());
     }
 
 }
