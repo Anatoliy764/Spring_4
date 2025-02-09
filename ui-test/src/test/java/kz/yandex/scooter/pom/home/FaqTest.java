@@ -2,82 +2,54 @@ package kz.yandex.scooter.pom.home;
 
 import kz.yandex.scooter.constants.CommonConstant;
 import kz.yandex.scooter.util.WebDriverFactory;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+@RunWith(Parameterized.class)
 public class FaqTest {
 
-    private WebDriver webDriver;
-    private List<HomePage.FAQ> questions;
+    private static WebDriver webDriver;
 
-    @Before
-    public void init() {
+    @Parameterized.Parameter(0)
+    public int questionOrderIndex;
+
+    @Parameterized.Parameter(1)
+    public HomePage.FAQ faq;
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> getQuestions() {
         try {
             webDriver = WebDriverFactory.create();
             webDriver.get(CommonConstant.URL_YANDEX_SCOOTER);
+
+            List<HomePage.FAQ> faqList = new HomePage(webDriver).scrollDown().getFAQ();
+
+            Collection<Object[]> data = new ArrayList<>();
+            for (int i = 0; i < faqList.size(); i++) {
+                data.add(new Object[]{i, faqList.get(i)});
+            }
+            return data;
+
         } catch (Exception e) {
             throw new RuntimeException("Unable to instantiate chrome webDriver. Reason: " + e.getMessage());
         }
-
-        questions = new HomePage(webDriver).scrollDown().getFAQ();
-    }
-
-    private void testFaqQuestion(FaqEnum faqEnum, HomePage.FAQ faq) {
-        assertEquals(faqEnum.getQuestion(), faq.getQuestion());
-        assertEquals(faqEnum.getAnswer(), faq.getAnswer());
     }
 
     @Test
-    public void testPriceAndPaymentFAQ() {
-        testFaqQuestion(FaqEnum.PRICE_AND_PAYMENT, questions.get(FaqEnum.PRICE_AND_PAYMENT.ordinal()));
+    public void test() {
+        assertEquals(FaqEnum.valueOf(questionOrderIndex).getAnswer(), faq.getAnswer());
     }
 
-
-    @Test
-    public void testRentMultipleScootersFAQ() {
-        testFaqQuestion(FaqEnum.RENT_MULTIPLE_SCOOTERS, questions.get(FaqEnum.RENT_MULTIPLE_SCOOTERS.ordinal()));
-    }
-
-
-    @Test
-    public void testRentalTimeCalculationFAQ() {
-        testFaqQuestion(FaqEnum.RENTAL_TIME_CALCULATION, questions.get(FaqEnum.RENTAL_TIME_CALCULATION.ordinal()));
-    }
-
-    @Test
-    public void testRentScooterForTodayFAQ() {
-        testFaqQuestion(FaqEnum.RENT_SCOOTER_FOR_TODAY, questions.get(FaqEnum.RENT_SCOOTER_FOR_TODAY.ordinal()));
-    }
-
-    @Test
-    public void testOrderEditFAQ() {
-        testFaqQuestion(FaqEnum.ORDER_EDIT, questions.get(FaqEnum.ORDER_EDIT.ordinal()));
-    }
-
-    @Test
-    public void testScooterWithChargerFAQ() {
-        testFaqQuestion(FaqEnum.SCOOTER_WITH_CHARGER, questions.get(FaqEnum.SCOOTER_WITH_CHARGER.ordinal()));
-    }
-
-    @Test
-    public void testCancelOrderFAQ() {
-        testFaqQuestion(FaqEnum.CANCEL_ORDER, questions.get(FaqEnum.CANCEL_ORDER.ordinal()));
-    }
-
-    @Test
-    public void testOrderAreaFAQ() {
-        testFaqQuestion(FaqEnum.ORDER_AREA, questions.get(FaqEnum.ORDER_AREA.ordinal()));
-    }
-
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         webDriver.close();
     }
 

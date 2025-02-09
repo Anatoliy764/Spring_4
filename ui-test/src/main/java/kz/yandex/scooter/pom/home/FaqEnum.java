@@ -1,5 +1,8 @@
 package kz.yandex.scooter.pom.home;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public enum FaqEnum {
 
     PRICE_AND_PAYMENT(
@@ -53,5 +56,12 @@ public enum FaqEnum {
 
     public static FaqEnum valueOf(int ordinal) {
         return values()[ordinal];
+    }
+
+    public static FaqEnum valueOfQuestion(String question) {
+        return Arrays.stream(FaqEnum.values())
+                .filter(faq -> Objects.equals(faq.question, question))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Нет вопроса с содержанием: \"%s\"", question)));
     }
 }

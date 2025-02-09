@@ -10,6 +10,7 @@ import kz.yandex.scooter.pom.PageObjectModel;
 import kz.yandex.scooter.pom.order.Order;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,11 +131,23 @@ public class HomePage extends PageObjectModel {
 
         public String getAnswer() {
             accordionItem.findElement(By.className(CLASS_FAQ_ACCORDION_HEADING))
-                    .findElement(By.className(HomePage.CLASS_FAQ_ACCORDION_BUTTON)).click();
+                    .findElement(By.className(HomePage.CLASS_FAQ_ACCORDION_BUTTON))
+                    .click();
 
-            return accordionItem.findElement(By.className(CLASS_FAQ_ACCORDION_PANEL))
-                    .findElement(By.tagName("p"))
-                    .getText();
+            return new WebDriverWait(webDriver, CommonConstant.TIME_OUT)
+                    .until(driver -> {
+                        if (accordionItem.findElement(By.className(CLASS_FAQ_ACCORDION_PANEL)).findElement(By.tagName("p")).isDisplayed()) {
+                            return accordionItem.findElement(By.className(CLASS_FAQ_ACCORDION_PANEL))
+                                    .findElement(By.tagName("p"));
+                        }
+                        return null;
+                    }).getText();
+        }
+
+        protected String getId() {
+            return accordionItem.findElement(By.className(CLASS_FAQ_ACCORDION_HEADING))
+                    .findElement(By.className(HomePage.CLASS_FAQ_ACCORDION_BUTTON))
+                    .getDomAttribute("id");
         }
     }
 }
